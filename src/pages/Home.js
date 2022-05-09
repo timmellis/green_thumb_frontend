@@ -49,13 +49,14 @@ function Home(props) {
     <div>
       <h1>Welcome, {userData.name}!</h1>
 
-      <h3>Your plants:</h3>
+      <h3>Your Houseplants:</h3>
       {userData.plants.map((p,i) => (
         <div className='user-plants-container section-container dropdown-container' key={i}>
           <ItemDropdown item={p} slug='plant' id={`plant-${i}`} />
         </div>
       ))}
-      <button className='add-button'>Add New Location...</button>
+      <button className='add-button' onClick={()=>navigate('new/houseplant/')}>Add New Houseplant...</button>
+      <button className='add-button' onClick={()=>navigate('new/plant/')}>Add New Plant...</button>
 
       <h3>Your locations:</h3>
       {userData.locations.map((p,i) => (

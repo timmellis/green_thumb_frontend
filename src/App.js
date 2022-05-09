@@ -5,6 +5,8 @@ import React, {useState, useEffect, createContext} from 'react'
 import UserContext from './UserContext'
 import Home from './pages/Home'
 import LocationForm from './components/LocationForm'
+import PlantForm from './components/PlantForm'
+import HouseplantForm from './components/HouseplantForm'
 import API from './API'
 
 function App() {
@@ -12,12 +14,14 @@ function App() {
   // FOR NOW, USER = 1
   const [user, setUser] = useState(1)
   const [userData, setUserData] = useState(null)
+  const [userHouseplants, setUserHouseplants] = useState(null)
   const [allPlants, setAllPlants] = useState([])
 
 
   useEffect(() => {
     refreshUserData()
     refreshAllPlants()
+    if(user) refreshUserHouseplants()
   }, [])
 
   const refreshUserData = () => {
@@ -25,6 +29,16 @@ function App() {
       .then((res) => {
         console.log("USER",res.data)
         setUserData(res.data)
+      })
+      .catch(console.error)
+  }
+
+  const refreshUserHouseplants = () => {
+    API.get(`houseplants/`)
+      .then((res) => {
+        let myHouseplants = res.data.filter(a => a.user_id===user)
+        console.log("HOUSEPLANTS",res.data, "MYPLANTS",myHouseplants)
+        setUserHouseplants(res.data)
       })
       .catch(console.error)
   }
@@ -42,11 +56,20 @@ function App() {
 
   return (
     <div className="App">
-    <UserContext.Provider value={{userData, refreshUserData, allPlants, refreshAllPlants}}>
+    <UserContext.Provider value={{userData, refreshUserData, allPlants, refreshAllPlants, userHouseplants, refreshUserHouseplants}}>
       <header>Header for app</header>
       {/* <Home /> */}
       <Routes>
         <Route path='/' element={<Home />} />
+
+        <Route path='/new/houseplant' element={<HouseplantForm />} />
+        <Route path='/update/houseplant/:id' element={<HouseplantForm />} />
+        <Route path='/delete/houseplant/:id' element={<HouseplantForm action='delete' />} />
+
+        <Route path='/new/plant' element={<PlantForm />} />
+        <Route path='/update/plant/:id' element={<PlantForm />} />
+        <Route path='/delete/plant/:id' element={<PlantForm action='delete' />} />
+
         <Route path='/new/location' element={<LocationForm />} />
         <Route path='/update/location/:id' element={<LocationForm />} />
         <Route path='/delete/location/:id' element={<LocationForm action='delete' />} />
