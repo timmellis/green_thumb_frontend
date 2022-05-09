@@ -4,6 +4,7 @@ import {useNavigate, useParams, useSearchParams} from 'react-router-dom'
 import Axios from 'axios'
 import API from '../API'
 import ItemDropdown from '../components/ItemDropdown'
+import HouseplantDropdown from '../components/HouseplantDropdown'
 
 function Home(props) {
 
@@ -52,7 +53,7 @@ function Home(props) {
       <h3>Your Houseplants:</h3>
       {userHouseplants.map((p,i) => (
         <div className='user-plants-container section-container dropdown-container' key={i}>
-          <ItemDropdown item={p.plant} slug='houseplant' id={p.id} />
+          <HouseplantDropdown item={p} slug='houseplant' id={p.id} />
         </div>
       ))}
       <button className='add-button' onClick={()=>navigate('new/houseplant/')}>Add New Houseplant...</button>

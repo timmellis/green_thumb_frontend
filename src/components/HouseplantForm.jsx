@@ -7,7 +7,7 @@ import API from '../API'
 function HouseplantForm(props) {
 
   const navigate = useNavigate()
-  const {userData, refreshUserData, allPlants, userHouseplants, refreshUserHouseplants} = useContext(UserContext)
+  const {userData, refreshUserData, allPlants, refreshAllPlants, userHouseplants, refreshUserHouseplants} = useContext(UserContext)
   const {id} = useParams()
   const isDelete = props.action === 'delete' ? true : false
 
@@ -22,6 +22,9 @@ function HouseplantForm(props) {
   useEffect(() => {
     if (userData) setNewHouseplant({...newHouseplant, user_id: userData.id})
   },[userData])
+  useEffect(() => {
+    refreshAllPlants()
+  }, [])
 
   useEffect(() => {         // IF id, then populate form w existing data 
     if (id && userData) {
@@ -97,7 +100,7 @@ function HouseplantForm(props) {
             <option value={plant.id}>{plant.name}</option>
           ))}
         </select>
-        <div>Or:</div><button onClick={()=>navigate('/new/plant/')}>Add a New Plant to the database</button>
+        <div>Or:</div><button onClick={()=>navigate('/new/plant/')} disabled={isDelete} >Add a New Plant to the database</button>
 
         <label htmlFor='loc_id'>Location: </label>
         <select name='loc_id' id='loc-id' value={newHouseplant.loc_id} onChange={(e)=>handleChange(e)} disabled={isDelete} required>
@@ -106,13 +109,13 @@ function HouseplantForm(props) {
             <option value={loc.id}>{loc.name}</option>
           ))}
         </select>
-        <div>Or:</div><button onClick={()=>navigate('/new/location/')}>Add a new location to your home</button>
+        <div>Or:</div><button onClick={()=>navigate('/new/location/')} disabled={isDelete} >Add a new location to your home</button>
 
         <label htmlFor='img_url'>Image:</label>
-        <input type='text' id='houseplant-img-url' value={newHouseplant.img_url} onChange={(e)=>handleChange(e)} />
+        <input type='text' id='houseplant-img-url' value={newHouseplant.img_url} onChange={(e)=>handleChange(e)} disabled={isDelete}  />
 
         <label htmlFor='notes'>Notes: </label>
-        <textarea name='notes' id='houseplant-notes' value={newHouseplant.notes} onChange={(e)=>handleChange(e)} />
+        <textarea name='notes' id='houseplant-notes' value={newHouseplant.notes} onChange={(e)=>handleChange(e)} disabled={isDelete}  />
 
 
         <label></label>

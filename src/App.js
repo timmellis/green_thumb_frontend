@@ -4,6 +4,7 @@ import {Route, Routes, useNavigate} from 'react-router-dom'
 import React, {useState, useEffect, createContext} from 'react'
 import UserContext from './UserContext'
 import Home from './pages/Home'
+import Plants from './pages/Plants'
 import LocationForm from './components/LocationForm'
 import PlantForm from './components/PlantForm'
 import HouseplantForm from './components/HouseplantForm'
@@ -33,12 +34,19 @@ function App() {
       .catch(console.error)
   }
 
+
+  function sortBy(arr, field) {
+    arr.sort((a,b)=> {return a[field] < b[field] ? -1 : (a[field] > b[field] ? 1 : 0)})
+  }
+  
   const refreshUserHouseplants = () => {
     API.get(`houseplants/`)
       .then((res) => {
         let myHouseplants = res.data.filter(a => a.user_id===user)
         console.log("HOUSEPLANTS",res.data, "MYPLANTS",myHouseplants)
-        setUserHouseplants(res.data)
+        setUserHouseplants(res.data
+        .sort((a,b)=> {return a.plant.name < b.plant.name ? -1 : (a.plant.name>b.plant.name ? 1 : 0)})
+        )
       })
       .catch(console.error)
   }
@@ -66,6 +74,7 @@ function App() {
         <Route path='/update/houseplant/:id' element={<HouseplantForm />} />
         <Route path='/delete/houseplant/:id' element={<HouseplantForm action='delete' />} />
 
+        <Route path='/plants' element={<Plants />} />
         <Route path='/new/plant' element={<PlantForm />} />
         <Route path='/update/plant/:id' element={<PlantForm />} />
         <Route path='/delete/plant/:id' element={<PlantForm action='delete' />} />
