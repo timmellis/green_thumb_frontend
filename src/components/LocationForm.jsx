@@ -12,8 +12,8 @@ function LocationForm(props) {
   const isDelete = props.action === 'delete' ? true : false
 
   const [newLoc, setNewLoc] = useState({
-    user_id: 0,
-    name: "test",
+    user_id: null,
+    name: "",
     description: "",
     img_url: "",
     light_level: "",
@@ -59,17 +59,22 @@ function LocationForm(props) {
   const handleSubmit = (e) => {
     e.preventDefault()
      
-    const res = !id ? 
-      API.post('locations/', newLoc).catch(console.error)
+    let res
+    if(!id) res = 
+      API.post('locations/', newLoc)
         .then(()=>refreshUserData())
         .then(()=>navigate('/'))
         .catch(console.error)
-      :
+    else if (id && !isDelete) res =
       API.put(`locations/${id}`, newLoc)
         .then(()=>refreshUserData())
         .then(()=>navigate('/'))
         .catch(console.error)
-
+    else if (id && isDelete) res =
+        API.delete(`locations/${id}`)
+        .then(()=>refreshUserData())
+        .then(()=>navigate('/'))
+        .catch(console.error)
     console.log(res)
   }
 
@@ -77,8 +82,16 @@ function LocationForm(props) {
   if (userData) {
     return (
     <div className='form-container form-location-container'>
-      <h2>{id ? "Update" : "Create New"} Location:</h2>
+      <h2>{id ? (isDelete ? "Delete " : "Update ") : "Create New "}
+        Location{isDelete ? "?" : ":"}
+      </h2>
+
       <form onSubmit={(e)=>handleSubmit(e)} className='form-location'>
+
+      {/* YOU CAN DELETE THIS AFTER DEVELOPMENT */}
+        <label htmlFor='id'>user_id: </label>
+        <input type='text' name='user_id' id='loc-user-id' value={newLoc.user_id + " (" + userData.name + ")"} onChange={(e)=>handleChange(e)} disabled />
+
         <label htmlFor='name'>Name: </label>
         <input type='text' name='name' id='loc-name' value={newLoc.name} onChange={(e)=>handleChange(e)} disabled={isDelete} />
 
@@ -91,19 +104,22 @@ function LocationForm(props) {
         <input type='text' name='img_url' id='loc-img-url' value={newLoc.img_url} onChange={(e)=>handleChange(e)} disabled={isDelete} />
 
         <label htmlFor='light_level'>Light level: </label>
-        <input type='text' name='light_level' id='loc-light-level' value={newLoc.light_level} onChange={(e)=>handleChange(e)} />
+        <input type='text' name='light_level' id='loc-light-level' value={newLoc.light_level} onChange={(e)=>handleChange(e)} disabled={isDelete} />
 
         <label htmlFor='temp'>Avg. Temp.: </label>
-        <input type='text' name='temp' id='loc-temp' value={newLoc.temp} onChange={(e)=>handleChange(e)} />
+        <input type='text' name='temp' id='loc-temp' value={newLoc.temp} onChange={(e)=>handleChange(e)} disabled={isDelete} />
 
         <label htmlFor='humidity'>Avg. Humidity: </label>
-        <input type='text' name='humidity' id='loc-humidity' value={newLoc.humidity} onChange={(e)=>handleChange(e)} />
+        <input type='text' name='humidity' id='loc-humidity' value={newLoc.humidity} onChange={(e)=>handleChange(e)} disabled={isDelete} />
 
         <label htmlFor='notes'>Notes: </label>
-        <input type='text' name='notes' id='loc-notes' value={newLoc.notes} onChange={(e)=>handleChange(e)} />
+        <input type='text' name='notes' id='loc-notes' value={newLoc.notes} onChange={(e)=>handleChange(e)} disabled={isDelete} />
 
         <label></label>
-        <button type='submit'>Submit</button>
+        <div className='form-buttons'>
+          <button type='submit' className={isDelete ? "delete-button" : "submit-button"}>{!isDelete ? "Submit" : "Delete"}</button>
+          <button type='cancel' className='cancel-button' onClick={()=>navigate('/')}>Cancel</button>
+        </div>
       </form>
 
     </div>

@@ -77,3 +77,19 @@
   column-gap: 4px;
   row-gap: 8px;
 }
+
+.form-buttons {
+  display:flex;
+}
+.form-buttons button {
+  padding: 2px;
+}
+.form-buttons button[type=submit] {
+  flex: 3;
+  margin-right:12px;
+  font-weight:bold;
+}
+.form-buttons button[type=cancel] {
+  flex: 1;
+
+}

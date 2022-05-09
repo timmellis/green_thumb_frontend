@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {UserContext} from '../UserContext'
-import {Routes, Route, useParams, useSearchParams} from 'react-router-dom'
+import {useNavigate, useParams, useSearchParams} from 'react-router-dom'
 import Axios from 'axios'
 import API from '../API'
 import ItemDropdown from '../components/ItemDropdown'
@@ -8,6 +8,7 @@ import ItemDropdown from '../components/ItemDropdown'
 function Home(props) {
 
   const {userData, refreshUserData, allPlants, refreshAllPlants} = useContext(UserContext)
+  const navigate = useNavigate()
 
   const [newPlant, setNewPlant] = useState(
     {
@@ -54,6 +55,7 @@ function Home(props) {
           <ItemDropdown item={p} slug='plant' id={`plant-${i}`} />
         </div>
       ))}
+      <button className='add-button'>Add New Location...</button>
 
       <h3>Your locations:</h3>
       {userData.locations.map((p,i) => (
@@ -61,6 +63,7 @@ function Home(props) {
           <ItemDropdown item={p} slug='location' id={`loc-${i}`} />
         </div>
       ))}
+      <button className='add-button' onClick={()=>navigate(`new/location/`)}>Add New Location...</button>
 
 
       {/* <p>Or, check out ALL the plants folks have registered so far!</p>
