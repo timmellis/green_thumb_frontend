@@ -63,7 +63,7 @@ function LocationForm(props) {
     if(!id) res = 
       API.post('locations/', newLoc)
         .then(()=>refreshUserData())
-        .then(()=>navigate('/'))
+        .then(()=>navigate(-1))
         .catch(console.error)
     else if (id && !isDelete) res =
       API.put(`locations/${id}`, newLoc)

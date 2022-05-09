@@ -15,9 +15,8 @@ function HouseplantForm(props) {
     user_id: null,
     plant_id: null,
     loc_id: null,
-    img_url: null,
+    img_url: "",
     notes: ""
-
   })
 
   useEffect(() => {
@@ -26,6 +25,7 @@ function HouseplantForm(props) {
 
   useEffect(() => {         // IF id, then populate form w existing data 
     if (id && userData) {
+      console.log('id',id,'hps',userHouseplants)
       let thisHouseplant = userHouseplants.filter( a => a.id === parseInt(id))[0]
       console.log("THISPLANT",thisHouseplant)
       setNewHouseplant({...newHouseplant, 
@@ -80,20 +80,40 @@ function HouseplantForm(props) {
   if (userData && allPlants) {
     return (
     <div className='form-container form-houseplants-container'>
-      <h2>{id ? (isDelete ? "Delete " : "Update ") : "Create New "}
-        Plant{isDelete ? "?" : ":"}
+      <h2>{id ? (isDelete ? "Remove " : "Update ") : "Record New "}
+        Houseplant{isDelete ? "?" : ":"}
       </h2>
 
-      <form onSubmit={(e)=>handleSubmit(e)} className='form-houseplant'>
+      <form action='' onSubmit={(e)=>handleSubmit(e)} className='form-houseplant'>
 
       {/* YOU CAN DELETE THIS AFTER DEVELOPMENT */}
         <label htmlFor='user_id'>User: </label>
         <input type='text' name='user_id' id='houseplant-user-id' value={userData.name} onChange={(e)=>handleChange(e)} disabled />
 
-        <label htmlFor='plant_id'>Which plant? </label>
-        <select name='plant_id' id='plant-id' value={newHouseplant.plant_id} onChange={(e)=>handleChange(e)} disabled={isDelete}>
-          {/* {allPlants.map()} */}
+        <label htmlFor='plant_id'>Select plant: </label>
+        <select name='plant_id' id='plant-id' value={newHouseplant.plant_id} onChange={(e)=>handleChange(e)} disabled={isDelete} required>
+          <option value='' disabled selected hidden>---</option>
+          {allPlants.map((plant,i) => (
+            <option value={plant.id}>{plant.name}</option>
+          ))}
         </select>
+        <div>Or:</div><button onClick={()=>navigate('/new/plant/')}>Add a New Plant to the database</button>
+
+        <label htmlFor='loc_id'>Location: </label>
+        <select name='loc_id' id='loc-id' value={newHouseplant.loc_id} onChange={(e)=>handleChange(e)} disabled={isDelete} required>
+          <option value='' disabled selected hidden>---</option>
+          {userData.locations.map((loc,i) => (
+            <option value={loc.id}>{loc.name}</option>
+          ))}
+        </select>
+        <div>Or:</div><button onClick={()=>navigate('/new/location/')}>Add a new location to your home</button>
+
+        <label htmlFor='img_url'>Image:</label>
+        <input type='text' id='houseplant-img-url' value={newHouseplant.img_url} onChange={(e)=>handleChange(e)} />
+
+        <label htmlFor='notes'>Notes: </label>
+        <textarea name='notes' id='houseplant-notes' value={newHouseplant.notes} onChange={(e)=>handleChange(e)} />
+
 
         <label></label>
         <div className='form-buttons'>

@@ -7,7 +7,7 @@ import ItemDropdown from '../components/ItemDropdown'
 
 function Home(props) {
 
-  const {userData, refreshUserData, allPlants, refreshAllPlants} = useContext(UserContext)
+  const {userData, refreshUserData, userHouseplants, refreshUserHouseplants, allPlants, refreshAllPlants} = useContext(UserContext)
   const navigate = useNavigate()
 
   const [newPlant, setNewPlant] = useState(
@@ -45,14 +45,14 @@ function Home(props) {
     // console.log(res)
   }
 
-  if (userData && userData.name && userData.plants && userData.locations) return (
+  if (userData && userData.name && userData.plants && userData.locations && userHouseplants) return (
     <div>
       <h1>Welcome, {userData.name}!</h1>
 
       <h3>Your Houseplants:</h3>
-      {userData.plants.map((p,i) => (
+      {userHouseplants.map((p,i) => (
         <div className='user-plants-container section-container dropdown-container' key={i}>
-          <ItemDropdown item={p} slug='plant' id={`plant-${i}`} />
+          <ItemDropdown item={p.plant} slug='houseplant' id={p.id} />
         </div>
       ))}
       <button className='add-button' onClick={()=>navigate('new/houseplant/')}>Add New Houseplant...</button>
@@ -61,7 +61,7 @@ function Home(props) {
       <h3>Your locations:</h3>
       {userData.locations.map((p,i) => (
         <div className='user-locations-container section-container dropdown-container' key={i}>
-          <ItemDropdown item={p} slug='location' id={`loc-${i}`} />
+          <ItemDropdown item={p} slug='location' id={p.id} />
         </div>
       ))}
       <button className='add-button' onClick={()=>navigate(`new/location/`)}>Add New Location...</button>

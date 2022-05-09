@@ -47,7 +47,7 @@ function App() {
     API.get("plants/")
       .then((res) => {
         // console.log("ALL PLANTS",res.data)
-        setAllPlants(res.data)
+        setAllPlants(res.data.sort((a,b)=> {return a.name < b.name ? -1 : (a.name>b.name ? 1 : 0)}))
       })
       .catch(console.error)
   }

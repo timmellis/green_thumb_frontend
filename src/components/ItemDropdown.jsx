@@ -22,17 +22,17 @@ function ItemDropdown(props) {
     <div className='item-dropdown-container'>
       
       {/* Header w/ title for dropdown */}
-      <div className='item-dropdown-header' onClick={()=>toggleDropdown(props.id)}>{props.item.name} <span className='dropdown-arrow'>▼</span></div>
+      <div className='item-dropdown-header' onClick={()=>toggleDropdown(props.slug + "-" + props.id)}>{props.item.name} <span className='dropdown-arrow'>▼</span></div>
 
       {/* The rest of the content */}
-      <div className='item-dropdown-info' id={`info-${props.id}`}>
+      <div className='item-dropdown-info' id={`info-${props.slug + "-" + props.id}`}>
         {/* If exists, display image first */}
         {(thisKeys.includes('img_url') && props.item.img_url) ?  
           <div className='item-dropdown-banner-img' style={{backgroundImage:`url(${props.item.img_url}`}}></div>
           : <div className='item-dropdown-banner-img-none'>(no image)</div>
         }
 
-        {Object.keys(props.item).map((k,i)=> (
+        {thisKeys.map((k,i)=> (
           (k!=='name' && k!=='id' && k!=='img_url' && k!=='user_id') &&
           <div key={i} className='item-dropdown-line' id={`item-dropdown-info-${k}`}>
             <div className='item-dropown-line-title'> {k}: </div> 
@@ -48,8 +48,8 @@ function ItemDropdown(props) {
         <div className='item-dropdown-line'>
           <div className='item-dropdown-line-title'>Actions: </div>
           <div>
-            <button onClick={()=>navigate(`update/${props.slug}/${props.item['id']}`)}>Edit</button>
-            <button onClick={()=>navigate(`delete/${props.slug}/${props.item['id']}`)}>Delete</button>
+            <button onClick={()=>navigate(`update/${props.slug}/${props.id}`)}>Edit</button>
+            <button onClick={()=>navigate(`delete/${props.slug}/${props.id}`)}>Delete</button>
           </div>
         </div>
     </div>

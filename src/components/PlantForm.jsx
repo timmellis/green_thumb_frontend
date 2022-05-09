@@ -68,7 +68,7 @@ function PlantForm(props) {
     if(!id) res = 
       API.post('plants/', newPlant)
         .then(()=>refreshUserData())
-        .then(()=>navigate('/'))
+        .then(()=>navigate(-1))
         .catch(console.error)
     else if (id && !isDelete) res =
       API.put(`plants/${id}`, newPlant)
@@ -132,7 +132,7 @@ function PlantForm(props) {
         <label></label>
         <div className='form-buttons'>
           <button type='submit' className={isDelete ? "delete-button" : "submit-button"}>{!isDelete ? "Submit" : "Delete"}</button>
-          <button type='cancel' className='cancel-button' onClick={()=>navigate('/')}>Cancel</button>
+          <button type='cancel' className='cancel-button' onClick={()=>navigate(-1)}>Cancel</button>
         </div>
       </form>
 
