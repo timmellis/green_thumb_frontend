@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom'
 import {LoginContext} from '../ContextFiles/LoginContext'
 import axiosInstance from '../Axios'
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, Container } from 'react-bootstrap'
 
 function Login(props) {
 
@@ -54,14 +54,16 @@ function Login(props) {
     return (
         <div className='form login-form'>
             <h1>Login</h1>
-            <Form onSubmit={handleSubmit} className='d-grid gap-2'>
+            <Form mw='lg' onSubmit={handleSubmit} className='d-grid gap-2'>
                 <Form.Control type='text' name='username' placeholder='Username' value={login.username} onChange={handleChange}></Form.Control>
                 <Form.Control type='password' name='password' placeholder='Password' value={login.password} onChange={handleChange}></Form.Control>
                 <Button type='submit'>Login</Button>      
             </Form>
             <div className='form-footer'>
-                <p>Don't have an account yet?</p>
-                <Button href='/signup/'type="button" variant='link'>Sign-Up</Button>
+                <Container>
+                  Don't have an account yet?
+                <Button href='/register/'type="button" variant='link'>Register</Button>
+                </Container>
             </div>
         </div>
     );

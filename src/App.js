@@ -1,18 +1,19 @@
 import './App.css';
 import {Route, Routes, useNavigate} from 'react-router-dom'
 import React, {useState, useEffect} from 'react'
+import * as Icon from 'react-bootstrap-icons';
+
+
+import axiosInstance from './Axios'
 import UserContext from './ContextFiles/UserContext'
 import {LoginContext} from './ContextFiles/LoginContext'
 
 import Home from './pages/Home'
 import Plants from './pages/Plants'
-import Nav from './components/Nav'
+import TopNav from './components/Nav'
 import LocationForm from './components/LocationForm'
 import PlantForm from './components/PlantForm'
 import HouseplantForm from './components/HouseplantForm'
-// import API from './API'
-import axiosInstance from './Axios'
-
 import Login from './components/Login'
 import Register from './components/Register'
 import Logout from './components/Logout'
@@ -123,8 +124,7 @@ function App() {
     <UserContext.Provider value={{user, setUser, userData, setUserData, refreshUserData, allPlants, refreshAllPlants, userHouseplants, refreshUserHouseplants}}>
 
       <header>
-        <span>Header for app</span>
-        <Nav />
+        <TopNav />
       </header>
 
 

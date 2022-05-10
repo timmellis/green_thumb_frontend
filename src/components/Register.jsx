@@ -44,33 +44,43 @@ function Register(props) {
             })
         })
         .catch(error => console.error)
-
     }
+
+    // const submit=document.querySelector('#submit');
+    // submit.addEventListener('click',()=>{
+    //     const email = document.querySelector('#email');
+
+    //     if(email.validity.typeMismatch){
+    //         email.setCustomValidity('Please enter correct email');
+    //     } else {
+    //         email.setCustomValidity('');
+    //     }
+    // })
 
     return (
         <div className='form signup-form'>
-            <h1>Sign-Up</h1>
+            <h1>Register</h1>
             <Form onSubmit={handleSubmit} className='d-grid'>
                 <div className='d-grid'> 
                 <Form.Group className='d-grid gap-2'>
-                    <Form.Control type='email' 
-                      name='email' placeholder='Email'
+                    <Form.Control type='email' required
+                      id='email' name='email' placeholder='Email'
                       value={form.email} onChange={handleChange}>
                     </Form.Control> 
-                    <Form.Control type='text'
-                      name='first_name' placeholder='First Name'
+                    <Form.Control type='text' required
+                      id='first_name' name='first_name' placeholder='First Name'
                       value={form.first_name} onChange={handleChange}>
                     </Form.Control>
-                    <Form.Control type='text'
-                      name='last_name' placeholder='Last Name'
+                    <Form.Control type='text' required
+                      id='last_name' name='last_name' placeholder='Last Name'
                       value={form.last_name} onChange={handleChange}>
                     </Form.Control>
-                    <Form.Control type='text' 
-                      name='username' placeholder='Username'
+                    <Form.Control type='text' required
+                      id='username' name='username' placeholder='Username'
                       value={form.username} onChange={handleChange}>
                     </Form.Control>
-                    <Form.Control type='password'
-                      name='password' placeholder='Password'
+                    <Form.Control type='password' required minlength='8'
+                      id='password' name='password' placeholder='Password (at least 8 characters)'
                       value={form.password} onChange={handleChange}>
                     </Form.Control>
                     <Button type='submit'>Register</Button>                
@@ -78,7 +88,7 @@ function Register(props) {
                 </div>
             <div className="form-footer">
                 <p>Have an account already?</p>
-                <Button href='/login/'type="button" variant='link'>Log-In</Button>
+                <Button href='/login/'type="button" variant='link'>Log In</Button>
                 </div>
 
             </Form>

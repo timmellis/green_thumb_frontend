@@ -51,8 +51,9 @@ function Logout(props) {
   },[user])
 
   return (
-    <div>
-      You have logged out!
+    <div className='flex-full-col'>
+      <img src={require('../assets/logo.png')} alt='logo-large' className='splash-logo' />
+      <h2>You have logged out!</h2>
     </div>
   );
 }

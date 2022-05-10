@@ -1,13 +1,28 @@
 :root {
-  --main-color: rgba(140,240,140,1);
-  --highlight-color: rgba(200,255,200,.5);
+  --main-color: rgba(36, 162, 101, 1);
+  --main-color-50: rgba(36, 162, 101, 0.5);
+  --highlight-color: rgba(116, 255, 188, 0.5);
+}
+
+/* Custom colors (Bootstrap override)  */
+button.btn-primary {
+  background-color: var(--main-color);
+  border: solid thin var(--main-color-50);
+}
+button.btn-primary:hover {
+  background-color: var(--main-color-50);
+  border: solid thin var(--main-color);
+}
+
+input.form-control:focus {
+  box-shadow: 0 0 3px 3px var(--main-color-50);
 }
 
 .App {
   text-align: center;
   box-sizing: border-box;
+  background-color: white;
 }
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -16,9 +31,60 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
+/* NAV BAR CUSTOM STYLING */
+.navbar {
+  background-color: var(--main-color-50);
+}
+.navbar-brand img {
+  height: 36px;
+}
+button.navbar-toggler {
+  background: white;
+}
+.navbar-nav a, .navbar-nav a:visited {
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+}
+.navbar-nav a:hover {
+  background-color: rgba(255,255,255,.65);
+  border-radius: 8px;
+}
+
+/* GENERIC ELEMENTS */
+a, a:visited {
+  color: rgb(216, 86, 42);
+}
+a:hover, a.btn-link:hover {
+  color: lightsalmon;
+}
+.form {
+  width:90%;
+  max-width:720px;
+  margin: 18px auto;
+  padding: 12px;
+  
+  border: solid 3px var(--main-color);
+  border-radius: 8px;
+}
+
+.splash-logo {
+  max-width:75%;
+  margin: 18px auto;
+}
+
+.flex-full-col {
+  height:calc(100% - 72px);
+  display:flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+}
+
+
+/* MAIN PAGE DROPDOWN COMPONENTS */
 .dropdown-container {
   display: flex;
   flex-direction: column;
