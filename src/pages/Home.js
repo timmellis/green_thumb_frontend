@@ -1,15 +1,16 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {UserContext} from '../UserContext'
 import {useNavigate, useParams, useSearchParams} from 'react-router-dom'
 import Axios from 'axios'
 import API from '../API'
+import {UserContext} from '../ContextFiles/UserContext'
 import ItemDropdown from '../components/ItemDropdown'
 import HouseplantDropdown from '../components/HouseplantDropdown'
 
 function Home(props) {
 
-  const {userData, refreshUserData, userHouseplants, refreshUserHouseplants, allPlants, refreshAllPlants} = useContext(UserContext)
   const navigate = useNavigate()
+
+  const {userData, refreshUserData, userHouseplants, refreshUserHouseplants, allPlants, refreshAllPlants} = useContext(UserContext)
 
   const [newPlant, setNewPlant] = useState(
     {
@@ -27,12 +28,6 @@ function Home(props) {
     }
   )
 
-  useEffect(() => {
-    // const getSomeData = someData()
-      // refreshData()
-    // console.log("USEEFFECT", getSomeData)
-  }, [])
-
   const refreshData = () => {
   }
 
@@ -41,12 +36,12 @@ function Home(props) {
   }
 
   const handleClick = () => {
-    console.log("Clicked!")
     const res = postData()
-    // console.log(res)
   }
 
-  if (userData && userData.name && userData.plants && userData.locations && userHouseplants) return (
+  // if (userData && userData.name && userData.plants && userData.locations && userHouseplants) {
+    if (userData && userHouseplants) {
+    return (
     <div>
       <h1>Welcome, {userData.name}!</h1>
 
@@ -76,7 +71,12 @@ function Home(props) {
       ))}
       <button onClick={handleClick}>Click</button> */}
     </div>
-  );
+    )
+  } else {
+      return (
+      <div onClick={()=>navigate('/login')}>Please Log in →</div>
+      )
+    }
 }
 
 export default Home;
