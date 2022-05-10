@@ -10,18 +10,19 @@ import Nav from './components/Nav'
 import LocationForm from './components/LocationForm'
 import PlantForm from './components/PlantForm'
 import HouseplantForm from './components/HouseplantForm'
-import API from './API'
+// import API from './API'
+import axiosInstance from './Axios'
 
 import Login from './components/Login'
 import Register from './components/Register'
 import Logout from './components/Logout'
+// import Axios from 'axios';
 
 
 function App() {
-
-
   
-  // FOR NOW, USER = 1
+  const navigate = useNavigate()
+
   const [user, setUser] = useState(false)
   const [userData, setUserData] = useState(null)
   const [userHouseplants, setUserHouseplants] = useState(null)
@@ -30,20 +31,40 @@ function App() {
   const [loginStatus, setLoginStatus] = useState(false)
 
 
-  // console.log("LocalStorage",JSON.stringify(localStorage))
+  console.log("LocalStorage",JSON.stringify(localStorage))
   
-  useEffect(()=> {
+  async function loginTest(username) {
+    await axiosInstance.get(`users/${username}`)
+    .then(res => {
+      console.log("HOME LOGINTEST RES", res)
+      if (res.status === 200) {      
+        setLoginStatus(true)
+        return true
+      }
+    })
+    .catch(error => console.error)
+  }
+
+  useEffect(()=>{
+    const user_id = localStorage.getItem('user_id')
+    const username = localStorage.getItem('username')
+    console.log("FIRST LOAD LOGIN TEST", user_id, username)
+
+    if (user_id && username) {
+      if(loginTest(username)) refreshLoginAndData()
+    }
+  }, [loginStatus])
+
+  const refreshLoginAndData = () => {
     const userIdLoggedIn = localStorage.getItem('user_id') 
+    console.log("LOGIN STATUS", loginStatus, "LOCALSTORAGE USER_ID",userIdLoggedIn)
     if (userIdLoggedIn) {
-      console.log("LOGIN STATUS", loginStatus)
-      console.log(JSON.stringify(localStorage))
+      console.log("LOGIN STATUS", loginStatus, JSON.stringify(localStorage))
       setUser(localStorage.getItem('user_id'))
-      setLoginStatus(true)
     } else {
       setUser(false)
-      setLoginStatus(false)
     }
-  },[])
+  }
   
   useEffect(() => {
     refreshUserData()
@@ -55,7 +76,7 @@ function App() {
   const refreshUserData = () => {
     if (user && user!=='undefined') {
       console.log("USER",user)
-      API.get(`users/alldetails/${user}`)
+      axiosInstance.get(`users/alldetails/${user}`)
         .then((res) => {
           console.log("USER",res.data)
           setUserData(res.data)
@@ -68,7 +89,7 @@ function App() {
   }
 
   const refreshUserHouseplants = () => {
-    API.get(`houseplants/`)
+    axiosInstance.get(`houseplants/`)
       .then((res) => {
         let myHouseplants = res.data.filter(a => parseInt(a.user_id)===parseInt(user))
         console.log("HOUSEPLANTS",res.data, "MYPLANTS",myHouseplants, "user", user)
@@ -84,7 +105,7 @@ function App() {
   }
 
   const refreshAllPlants = () => {
-    API.get("plants/")
+    axiosInstance.get("plants/")
       .then((res) => {
         // console.log("ALL PLANTS",res.data)
         setAllPlants(res.data.sort((a,b)=> {return a.name < b.name ? -1 : (a.name>b.name ? 1 : 0)}))
@@ -99,7 +120,7 @@ function App() {
 
     <div className="App">
 
-    <UserContext.Provider value={{user, userData, refreshUserData, allPlants, refreshAllPlants, userHouseplants, refreshUserHouseplants}}>
+    <UserContext.Provider value={{user, setUser, userData, setUserData, refreshUserData, allPlants, refreshAllPlants, userHouseplants, refreshUserHouseplants}}>
 
       <header>
         <span>Header for app</span>

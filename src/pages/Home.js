@@ -12,6 +12,10 @@ function Home(props) {
 
   const {userData, refreshUserData, userHouseplants, refreshUserHouseplants, allPlants, refreshAllPlants} = useContext(UserContext)
 
+  // useEffect(()=>{
+
+  // },[]) 
+
   const [newPlant, setNewPlant] = useState(
     {
       name: "Sunflower",
@@ -43,7 +47,9 @@ function Home(props) {
     if (userData && userHouseplants) {
     return (
     <div>
-      <h1>Welcome, {userData.name}!</h1>
+      <h1>
+        Welcome, {userData.first_name ? userData.first_name : userData.username}!
+      </h1>
 
       <h3>Your Houseplants:</h3>
       {userHouseplants.map((p,i) => (

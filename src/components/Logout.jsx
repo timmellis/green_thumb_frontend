@@ -1,12 +1,15 @@
 import React, {useEffect, useContext} from 'react';
 import { useNavigate } from 'react-router-dom'
 import {LoginContext} from '../ContextFiles/LoginContext'
+import {UserContext} from '../ContextFiles/UserContext'
 import axiosInstance from '../Axios'
 
 
 function Logout(props) {
 
   const {setLoginStatus} = useContext(LoginContext)
+  const {user, userData, setUser, setUserData} = useContext(UserContext)
+
   console.log("REFRESH TOKEN",localStorage.getItem('refresh_token'))
 
   const logout = async () => {
@@ -34,10 +37,18 @@ function Logout(props) {
     logout()
     setLoginStatus(false)
     localStorage.removeItem('refresh_token')
-    localStorage.removeItem('username')
     localStorage.removeItem('access_token')
     localStorage.removeItem('token')
+    localStorage.removeItem('username')
+    localStorage.removeItem('user_id')
+    setUser(false)
+    setUserData(null)
   },[])
+
+  useEffect(()=>{
+    console.log("END OF LOGOUT", "USER",user, "userDATA",userData )
+
+  },[user])
 
   return (
     <div>
