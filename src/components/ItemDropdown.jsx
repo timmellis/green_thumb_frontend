@@ -34,10 +34,10 @@ function ItemDropdown(props) {
           {thisKeys.map((k,i)=> (
             (k!=='name' && k!=='id' && k!=='img_url' && k!=='user_id') &&
 
-            <ListGroup.Item key={i} className='d-flex justify-content-between align-items-start'>
+            <ListGroup.Item key={i} className='d-flex justify-content-between align-items-start item-dropdown'>
               <Row className='item-dropdown-line container-lg'>
-                <Col xs={12} lg={3} className='item-dropown-line-title'>
-                  {k}: 
+                <Col xs={12} lg={3} className='item-dropdown-line-title'>
+                {k.split('_').join(' ')}: 
                 </Col> 
                 {Array.isArray(props.item[k]) 
                   ? <Col xs={12} lg={9} className='item-dropdown-line-content'> 

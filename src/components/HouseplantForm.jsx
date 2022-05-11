@@ -1,13 +1,18 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {UserContext} from '../ContextFiles/UserContext'
-import {Routes, Route, useParams, useSearchParams, useNavigate} from 'react-router-dom'
-import Axios from 'axios'
-import API from '../API'
+import {Routes, Route, useParams, useNavigate} from 'react-router-dom'
+import axiosInstance from 'axios'
+// import API from '../API'
+import { Form, Button, Row, Col } from 'react-bootstrap'
+import * as Icon from 'react-bootstrap-icons'
+import {RiPlantFill,RiPlantLine} from 'react-icons/ri'
+import {GiFruitTree} from 'react-icons/gi'
+
 
 function HouseplantForm(props) {
 
   const navigate = useNavigate()
-  const {userData, refreshUserData, allPlants, refreshAllPlants, userHouseplants, refreshUserHouseplants} = useContext(UserContext)
+  const {user, userData, refreshUserData, allPlants, refreshAllPlants, userHouseplants, refreshUserHouseplants} = useContext(UserContext)
   const {id} = useParams()
   const isDelete = props.action === 'delete' ? true : false
 
@@ -59,19 +64,19 @@ function HouseplantForm(props) {
     e.preventDefault()
     let res
     if(!id) res = 
-      API.post('houseplants/', newHouseplant)
+      axiosInstance.post('houseplants/', newHouseplant)
         .then(()=>refreshUserData())
         .then(()=>refreshUserHouseplants())
         .then(()=>navigate('/'))
         .catch(console.error)
     else if (id && !isDelete) res =
-      API.put(`houseplants/${id}`, newHouseplant)
+      axiosInstance.put(`houseplants/${id}`, newHouseplant)
         .then(()=>refreshUserData())
         .then(()=>refreshUserHouseplants())
         .then(()=>navigate('/'))
         .catch(console.error)
     else if (id && isDelete) res =
-        API.delete(`houseplants/${id}`)
+      axiosInstance.delete(`houseplants/${id}`)
         .then(()=>refreshUserData())
         .then(()=>refreshUserHouseplants())
         .then(()=>navigate('/'))
@@ -82,48 +87,84 @@ function HouseplantForm(props) {
 
   if (userData && allPlants) {
     return (
-    <div className='form-container form-houseplants-container'>
-      <h2>{id ? (isDelete ? "Remove " : "Update ") : "Record New "}
+    <div className='form form-container form-houseplants'>
+      <h2>{id ? (isDelete ? "Remove " : "Update ") : "Record A New "}
         Houseplant{isDelete ? "?" : ":"}
       </h2>
+      
+      <Form onSubmit={(e)=>handleSubmit(e)} className='d-grid form-houseplant'>
+      <Form.Group className='d-grid gap-2'>
 
-      <form action='' onSubmit={(e)=>handleSubmit(e)} className='form-houseplant'>
+        <Row>
+          <Col xs={12} lg={12} className='form-line-content'>
+            <h5>{userData.first_name}'s Houseplants</h5>
+          </Col>
+        </Row>
 
-      {/* YOU CAN DELETE THIS AFTER DEVELOPMENT */}
-        <label htmlFor='user_id'>User: </label>
-        <input type='text' name='user_id' id='houseplant-user-id' value={userData.name} onChange={(e)=>handleChange(e)} disabled />
+        <Row>
+          <Col xs={12} lg={3} className='form-line-title'>
+            <Form.Label htmlFor='plant_id'>Select plant: </Form.Label>
+          </Col>
+          <Col xs={12} lg={9} className='form-line-content'>
+            <Form.Select name='plant_id' id='plant-id' value={newHouseplant.plant_id} onChange={(e)=>handleChange(e)} disabled={isDelete} required>
+              <option value='' disabled selected hidden>---</option>
+              {allPlants.map((plant,i) => (
+                <option value={plant.id}>{plant.name}</option>
+                ))}
+            </Form.Select>
+            <div>Can't find your plant?</div>
+            <Button onClick={()=>navigate('/new/plant/')} disabled={isDelete}>
+              <GiFruitTree size='1.3rem' /> Add a New Plant to the database
+            </Button>
+          </Col>
+        </Row>
 
-        <label htmlFor='plant_id'>Select plant: </label>
-        <select name='plant_id' id='plant-id' value={newHouseplant.plant_id} onChange={(e)=>handleChange(e)} disabled={isDelete} required>
-          <option value='' disabled selected hidden>---</option>
-          {allPlants.map((plant,i) => (
-            <option value={plant.id}>{plant.name}</option>
-          ))}
-        </select>
-        <div>Or:</div><button onClick={()=>navigate('/new/plant/')} disabled={isDelete} >Add a New Plant to the database</button>
+        <Row>
+          <Col xs={12} lg={3} className='form-line-title'>
+            <Form.Label htmlFor='loc_id'>Location: </Form.Label>
+          </Col>
+          <Col xs={12} lg={9} className='form-line-content'>
+            <Form.Select name='loc_id' id='loc-id' value={newHouseplant.loc_id} onChange={(e)=>handleChange(e)} disabled={isDelete} required>
+              <option value='' disabled selected hidden>---</option>
+              {userData.locations.map((loc,i) => (
+                <option value={loc.id}>{loc.name}</option>
+                ))}
+            </Form.Select>
+            <div>Can't find your location?</div>
+            <Button onClick={()=>navigate('/new/location/')} disabled={isDelete} >
+              <Icon.GeoFill /> Add a new location to your home
+            </Button>
+          </Col>
+        </Row>
 
-        <label htmlFor='loc_id'>Location: </label>
-        <select name='loc_id' id='loc-id' value={newHouseplant.loc_id} onChange={(e)=>handleChange(e)} disabled={isDelete} required>
-          <option value='' disabled selected hidden>---</option>
-          {userData.locations.map((loc,i) => (
-            <option value={loc.id}>{loc.name}</option>
-          ))}
-        </select>
-        <div>Or:</div><button onClick={()=>navigate('/new/location/')} disabled={isDelete} >Add a new location to your home</button>
-
-        <label htmlFor='img_url'>Image:</label>
-        <input type='text' id='houseplant-img-url' value={newHouseplant.img_url} onChange={(e)=>handleChange(e)} disabled={isDelete}  />
-
-        <label htmlFor='notes'>Notes: </label>
-        <textarea name='notes' id='houseplant-notes' value={newHouseplant.notes} onChange={(e)=>handleChange(e)} disabled={isDelete}  />
+        <Row>
+          <Col xs={12} lg={3} className='form-line-title'>
+            <Form.Label htmlFor='img_url'>Image:</Form.Label>
+          </Col>
+          <Col xs={12} lg={9} className='form-line-content'>
+            <Form.Control type='text' name='img_url' id='houseplant-img-url' value={newHouseplant.img_url} onChange={(e)=>handleChange(e)} disabled={isDelete}  />
+          </Col>
+        </Row>
+        
+        <Row>
+          <Col xs={12} lg={3} className='form-line-title'>
+            <Form.Label htmlFor='notes'>Specific Notes: </Form.Label>
+          </Col>
+          <Col xs={12} lg={9} className='form-line-content'>
+            <Form.Control as='textarea' name='notes' id='houseplant-notes' value={newHouseplant.notes} onChange={(e)=>handleChange(e)} disabled={isDelete}  />
+          </Col>
+        </Row>
 
 
         <label></label>
         <div className='form-buttons'>
-          <button type='submit' className={isDelete ? "delete-button" : "submit-button"}>{!isDelete ? "Submit" : "Delete"}</button>
-          <button type='cancel' className='cancel-button' onClick={()=>navigate('/')}>Cancel</button>
+          <Button type='submit' className={!isDelete ? "submit-button" : "delete-button"} variant={!isDelete ? 'primary' : 'danger'}>
+            {!isDelete ? <span><RiPlantLine size='1.3rem' />Submit</span> : <span><Icon.XCircleFill /> Delete</span>}
+          </Button>
+          <Button variant='secondary' type='cancel' className='cancel-button' onClick={()=>navigate('/')}>Cancel</Button>
         </div>
-      </form>
+      </Form.Group>
+      </Form>
 
     </div>
   );

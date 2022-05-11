@@ -32,12 +32,12 @@ function App() {
   const [loginStatus, setLoginStatus] = useState(false)
 
 
-  console.log("LocalStorage",JSON.stringify(localStorage))
+  // console.log("LocalStorage",JSON.stringify(localStorage))
   
   async function loginTest(username) {
     await axiosInstance.get(`users/${username}`)
     .then(res => {
-      console.log("HOME LOGINTEST RES", res)
+      // console.log("HOME LOGINTEST RES", res)
       if (res.status === 200) {      
         setLoginStatus(true)
         return true
@@ -49,7 +49,7 @@ function App() {
   useEffect(()=>{
     const user_id = localStorage.getItem('user_id')
     const username = localStorage.getItem('username')
-    console.log("FIRST LOAD LOGIN TEST", user_id, username)
+    // console.log("FIRST LOAD LOGIN TEST", user_id, username)
 
     if (user_id && username) {
       if(loginTest(username)) refreshLoginAndData()
@@ -58,9 +58,9 @@ function App() {
 
   const refreshLoginAndData = () => {
     const userIdLoggedIn = localStorage.getItem('user_id') 
-    console.log("LOGIN STATUS", loginStatus, "LOCALSTORAGE USER_ID",userIdLoggedIn)
+    // console.log("LOGIN STATUS", loginStatus, "LOCALSTORAGE USER_ID",userIdLoggedIn)
     if (userIdLoggedIn) {
-      console.log("LOGIN STATUS", loginStatus, JSON.stringify(localStorage))
+      // console.log("LOGIN STATUS", loginStatus, JSON.stringify(localStorage))
       setUser(localStorage.getItem('user_id'))
     } else {
       setUser(false)
@@ -76,10 +76,10 @@ function App() {
 
   const refreshUserData = () => {
     if (user && user!=='undefined') {
-      console.log("USER",user)
+      // console.log("USER",user)
       axiosInstance.get(`users/alldetails/${user}`)
         .then((res) => {
-          console.log("USER",res.data)
+          // console.log("USER",res.data)
           setUserData(res.data)
         })
         .then((res) => {
@@ -115,8 +115,8 @@ function App() {
   }
 
 
-
-  return (
+console.log(loginStatus)
+if (loginStatus) return (
   <LoginContext.Provider value={{loginStatus, setLoginStatus}}>
 
     <div className="App">
@@ -131,9 +131,9 @@ function App() {
 
         <Routes>
 
-          <Route exact path='/register' element={<Register />} />
-          <Route exact path='/login' element={<Login />} />
-          <Route exact path='/Logout' element={<Logout />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/Logout' element={<Logout />} />
 
           <Route path='/' element={<Home />} />
 
@@ -157,6 +157,46 @@ function App() {
 
     </div>
   </LoginContext.Provider>
+  )
+  else return (
+    <LoginContext.Provider value={{ loginStatus, setLoginStatus }}>
+      <div className="App">
+        <UserContext.Provider
+          value={{
+            user,
+            setUser,
+            userData,
+            setUserData,
+            refreshUserData,
+            allPlants,
+            refreshAllPlants,
+            userHouseplants,
+            refreshUserHouseplants,
+          }}
+        >
+          <header>
+            <TopNav />
+          </header>
+          <div className="flex-full-col">
+            {/* <h2>
+              Please <a href="/login">Log in</a>
+            </h2> */}
+
+          <Routes>
+            <Route path='/' element={<Login />} /> 
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/Logout" element={<Logout />} />
+          </Routes>
+            <img
+              src={require("./assets/logo.png")}
+              alt="logo-large"
+              className="splash-logo"
+            />
+          </div>
+        </UserContext.Provider>
+      </div>
+    </LoginContext.Provider>
   );
 }
 

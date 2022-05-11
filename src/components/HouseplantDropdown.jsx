@@ -22,10 +22,10 @@ function HouseplantDropdown(props) {
         <Accordion.Body>
           <ListGroup.Item className='d-flex justify-content-center align-items-center'>
             <Row className='item-dropdown-line container-lg'>
-              <Col xs={12} lg={3} className='item-dropdown-title'>
+              <Col xs={12} lg={3} className='item-dropdown-line-title'>
                 Location:
               </Col>
-              <Col xs={12} lg={9} className='item-dropdown-content'>
+              <Col xs={12} lg={9} className='item-dropdown-line-content'>
                 {props.item.location.name}
               </Col>
             </Row>
@@ -35,7 +35,7 @@ function HouseplantDropdown(props) {
               <Col xs={12} lg={3} className='item-dropdown-line-title'>
                 Your Notes:
               </Col>
-              <Col xs={12} lg={9} className='item-dropdown-content'>
+              <Col xs={12} lg={9} className='item-dropdown-line-content'>
                 {props.item.notes}
               </Col>
             </Row>
@@ -57,10 +57,11 @@ function HouseplantDropdown(props) {
             (props.item.plant[k] && k!=='id' && k!=='name' && k!=='user_id' && k!=='img_url') &&
             <ListGroup.Item key={i} className='d-flex justify-content-center align-items-start'>
               <Row className='item-dropdown-line container-lg'>
-                <Col xs={12} lg={3} className='item-dropdown-title'> {k}: </Col> 
-
+                <Col xs={12} lg={3} className='item-dropdown-line-title'> 
+                  {k.split('_').join(' ')}: 
+                </Col> 
                 {Array.isArray(props.item.plant[k]) 
-                ? <Col xs={12} lg={9} className='item-dropdown-content'> 
+                ? <Col xs={12} lg={9} className='item-dropdown-line-content'> 
                   {props.item.plant[k].map((a,i)=> (
                     <div key={i}>{a.name}</div>
                   ))} 
@@ -75,11 +76,8 @@ function HouseplantDropdown(props) {
 
             <ListGroup.Item className='d-flex justify-content-between align-items-start'>
               <Row className='item-dropdown-line container-lg'>
-                <Col xs={12} lg={3} className='item-dropdown-line-title'>
-                  Actions: 
-                </Col>
-                <Col xs={12} lg={9} className='item-dropdown-line-content'>
-                  <Button variant='success' className='btn-sm' 
+                <Col xs={12} lg={12} className='item-dropdown-line-content'>
+                  <Button className='btn-sm' 
                     onClick={()=>navigate(`update/${props.slug}/${props.id}`)}>
                       <Icon.PencilFill /> Edit
                   </Button>

@@ -8,6 +8,8 @@ import HouseplantDropdown from '../components/HouseplantDropdown'
 // import { LoginContext } from '../ContextFiles/LoginContext';
 import {Button} from 'react-bootstrap'
 import * as Icon from 'react-bootstrap-icons'
+import {RiPlantFill,RiPlantLine} from 'react-icons/ri'
+import {GiFruitTree} from 'react-icons/gi'
 
 function Home(props) {
 
@@ -36,16 +38,20 @@ function Home(props) {
         Welcome, {userData.first_name ? userData.first_name : userData.username}!
       </h1>
 
-      <h3>Your Houseplants:</h3>
+      <h3 className='section-title accordion-title'>Your Houseplants:</h3>
       {userHouseplants.map((p,i) => (
         <div className='user-plants-container section-container dropdown-container' key={i}>
           <HouseplantDropdown item={p} slug='houseplant' id={p.id} index={i} />
         </div>
       ))}
-      <button className='add-button' onClick={()=>navigate('new/houseplant/')}>Add New Houseplant...</button>
-      <button className='add-button' onClick={()=>navigate('new/plant/')}>Add New Plant...</button>
+      <Button className='add-button' onClick={()=>navigate('new/houseplant/')}>
+        <RiPlantLine size='1.25em' /> Add New Houseplant...
+      </Button>
+      <Button className='add-button' onClick={()=>navigate('new/plant/')}>
+        <GiFruitTree size='1.25em' /> Add New Plant...
+      </Button>
 
-      <h3>Your locations:</h3>
+      <h3 className='section-title accordion-title'>Your locations:</h3>
       {userData.locations.map((p,i) => (
         <div className='user-locations-container section-container dropdown-container' key={i}>
           <ItemDropdown item={p} slug='location' id={p.id} index={i} />
