@@ -1,47 +1,32 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {useNavigate, useParams, useSearchParams} from 'react-router-dom'
-import Axios from 'axios'
-import API from '../API'
+import {useNavigate} from 'react-router-dom'
+import axiosInstance from '../Axios'
+// import API from '../API'
 import {UserContext} from '../ContextFiles/UserContext'
 import ItemDropdown from '../components/ItemDropdown'
 import HouseplantDropdown from '../components/HouseplantDropdown'
+// import { LoginContext } from '../ContextFiles/LoginContext';
+import {Button} from 'react-bootstrap'
+import * as Icon from 'react-bootstrap-icons'
 
 function Home(props) {
 
   const navigate = useNavigate()
 
-  const {userData, refreshUserData, userHouseplants, refreshUserHouseplants, allPlants, refreshAllPlants} = useContext(UserContext)
+  const {
+    userData, 
+    userHouseplants, 
+    // refreshUserData, 
+    // refreshUserHouseplants, 
+    // allPlants, 
+    // refreshAllPlants
+  } = useContext(UserContext)
 
   // useEffect(()=>{
 
   // },[]) 
 
-  const [newPlant, setNewPlant] = useState(
-    {
-      name: "Sunflower",
-      sci_name: "Not recorded",
-      description: "Some stuff goes here about the plant",
-      img_url: null,
-      water_freq: "Once per week",
-      water_qty: "normal",
-      light_level: "Direct Low",
-      temp: "Room temp (55-70 F)",
-      humidity: "Medium",
-      fertilizer_type: "a",
-      fertilizer_freq: "b"
-    }
-  )
 
-  const refreshData = () => {
-  }
-
-  const postData = () => {
-    API.post('plants/', newPlant).then(()=> refreshData())
-  }
-
-  const handleClick = () => {
-    const res = postData()
-  }
 
   // if (userData && userData.name && userData.plants && userData.locations && userHouseplants) {
     if (userData && userHouseplants) {
@@ -54,7 +39,7 @@ function Home(props) {
       <h3>Your Houseplants:</h3>
       {userHouseplants.map((p,i) => (
         <div className='user-plants-container section-container dropdown-container' key={i}>
-          <HouseplantDropdown item={p} slug='houseplant' id={p.id} />
+          <HouseplantDropdown item={p} slug='houseplant' id={p.id} index={i} />
         </div>
       ))}
       <button className='add-button' onClick={()=>navigate('new/houseplant/')}>Add New Houseplant...</button>
@@ -63,10 +48,13 @@ function Home(props) {
       <h3>Your locations:</h3>
       {userData.locations.map((p,i) => (
         <div className='user-locations-container section-container dropdown-container' key={i}>
-          <ItemDropdown item={p} slug='location' id={p.id} />
+          <ItemDropdown item={p} slug='location' id={p.id} index={i} />
         </div>
       ))}
-      <button className='add-button' onClick={()=>navigate(`new/location/`)}>Add New Location...</button>
+
+      <Button className='btn-sm add-button' onClick={()=>navigate(`new/location/`)}>
+        <Icon.GeoFill /> Add New Location...
+      </Button>
 
 
       {/* <p>Or, check out ALL the plants folks have registered so far!</p>
@@ -80,7 +68,9 @@ function Home(props) {
     )
   } else {
       return (
-      <div onClick={()=>navigate('/login')}>Please Log in →</div>
+        <div className='flex-full-col'>
+          <div className='loading-page'>Loading...</div>
+        </div>  
       )
     }
 }
