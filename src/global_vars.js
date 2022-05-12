@@ -1,4 +1,4 @@
-{
+const global_vars = {
   "water_freq_vars": 
     [
       "Daily",
@@ -63,6 +63,6 @@
       "Twice per year",
       "Once per year"
     ]
-
-
 }
+
+export default global_vars;

@@ -40,7 +40,7 @@ function App() {
   async function loginTest(username) {
     await axiosInstance.get(`users/${username}`)
     .then(res => {
-      console.log("HOME LOGINTEST RES", res)
+      // console.log("HOME LOGINTEST RES", res)
       if (res.status === 200) {      
         setLoginStatus(true)
         return true
@@ -73,7 +73,7 @@ function App() {
     refreshUserData()
     refreshAllPlants()
     if(user) refreshUserHouseplants()
-    console.log("USERHOUSEPLANTS",userHouseplants)
+    // console.log("USERHOUSEPLANTS",userHouseplants)
   }, [user])
 
 
@@ -94,7 +94,7 @@ function App() {
       // console.log("USER",user)
       axiosInstance.get(`users/alldetails/${user}`)
         .then((res) => {
-          console.log("REFRESH USER RES",res.data)
+          // console.log("REFRESH USER RES",res.data)
           setUserData(res.data)
         })
         .then((res) => {
@@ -130,7 +130,7 @@ function App() {
   }
 
 
-console.log("APP.js LOGIN STATUS", loginStatus)
+// console.log("APP.js LOGIN STATUS", loginStatus)
 
 if (loginStatus==='unset') return (
   <div className="App">
