@@ -1,8 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {UserContext} from '../ContextFiles/UserContext'
 import {Routes, Route, useParams, useSearchParams, useNavigate} from 'react-router-dom'
-import Axios from 'axios'
-import API from '../API'
+import axiosInstance from '../Axios'
 
 function PlantForm(props) {
 
@@ -66,17 +65,17 @@ function PlantForm(props) {
     e.preventDefault()
     let res
     if(!id) res = 
-      API.post('plants/', newPlant)
+      axiosInstance.post('plants/', newPlant)
         .then(()=>refreshUserData())
         .then(()=>navigate(-1))
         .catch(console.error)
     else if (id && !isDelete) res =
-      API.put(`plants/${id}`, newPlant)
+      axiosInstance.put(`plants/${id}`, newPlant)
         .then(()=>refreshUserData())
         .then(()=>navigate('/'))
         .catch(console.error)
     else if (id && isDelete) res =
-        API.delete(`plants/${id}`)
+        axiosInstance.delete(`plants/${id}`)
         .then(()=>refreshUserData())
         .then(()=>navigate('/'))
         .catch(console.error)
@@ -86,7 +85,7 @@ function PlantForm(props) {
 
   if (userData) {
     return (
-    <div className='form-container form-location-container'>
+    <div className='form form-container form-plants'>
       <h2>{id ? (isDelete ? "Delete " : "Update ") : "Create New "}
         Plant{isDelete ? "?" : ":"}
       </h2>

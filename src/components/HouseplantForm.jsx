@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {UserContext} from '../ContextFiles/UserContext'
 import {Routes, Route, useParams, useNavigate} from 'react-router-dom'
-import axiosInstance from 'axios'
+import axiosInstance from '../Axios'
 // import API from '../API'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import * as Icon from 'react-bootstrap-icons'
@@ -112,10 +112,14 @@ function HouseplantForm(props) {
                 <option value={plant.id}>{plant.name}</option>
                 ))}
             </Form.Select>
-            <div>Can't find your plant?</div>
-            <Button onClick={()=>navigate('/new/plant/')} disabled={isDelete}>
-              <GiFruitTree size='1.3rem' /> Add a New Plant to the database
-            </Button>
+            { !isDelete &&
+              <div>
+                Can't find your plant?
+                <Button onClick={()=>navigate('/new/plant/')} disabled={isDelete}>
+                  <GiFruitTree size='1.3rem' /> Add a New Plant to the database
+                </Button>
+              </div>
+            }
           </Col>
         </Row>
 
@@ -130,10 +134,14 @@ function HouseplantForm(props) {
                 <option value={loc.id}>{loc.name}</option>
                 ))}
             </Form.Select>
-            <div>Can't find your location?</div>
-            <Button onClick={()=>navigate('/new/location/')} disabled={isDelete} >
-              <Icon.GeoFill /> Add a new location to your home
-            </Button>
+            {!isDelete && 
+              <div>
+                Can't find your location?
+                <Button onClick={()=>navigate('/new/location/')} disabled={isDelete} >
+                  <Icon.GeoFill /> Add a new location to your home
+                </Button>
+              </div>
+            }
           </Col>
         </Row>
 

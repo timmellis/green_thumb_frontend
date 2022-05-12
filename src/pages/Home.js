@@ -16,6 +16,7 @@ function Home(props) {
   const navigate = useNavigate()
 
   const {
+    user,
     userData, 
     userHouseplants, 
     // refreshUserData, 
@@ -75,7 +76,10 @@ function Home(props) {
   } else {
       return (
         <div className='flex-full-col'>
-          <div className='loading-page'>Loading...</div>
+          <div className='loading-page'>
+            Loading...
+            {console.log("user",user,'userData',userData,'userHouseplants',userHouseplants)}
+          </div>
         </div>  
       )
     }

@@ -118,7 +118,7 @@ function LocationForm(props) {
         <label></label>
         <div className='form-buttons'>
           <button type='submit' className={isDelete ? "delete-button" : "submit-button"}>{!isDelete ? "Submit" : "Delete"}</button>
-          <button type='cancel' className='cancel-button' onClick={()=>navigate('/')}>Cancel</button>
+          <button type='cancel' className='cancel-button' onClick={()=>navigate(-1)}>Cancel</button>
         </div>
       </form>
 
