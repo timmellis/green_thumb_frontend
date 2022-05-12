@@ -38,7 +38,7 @@ function App() {
   async function loginTest(username) {
     await axiosInstance.get(`users/${username}`)
     .then(res => {
-      // console.log("HOME LOGINTEST RES", res)
+      console.log("HOME LOGINTEST RES", res)
       if (res.status === 200) {      
         setLoginStatus(true)
         return true
@@ -47,18 +47,34 @@ function App() {
         return false
       }
     })
-    .catch(error => console.error)
+    .catch(error => {
+      console.error()
+      setLoginStatus(false)
+    })
   }
+
+  useEffect(() => {
+    loginTest()
+  }, [])
 
   useEffect(()=>{
     const user_id = localStorage.getItem('user_id')
     const username = localStorage.getItem('username')
-    // console.log("FIRST LOAD LOGIN TEST", user_id, username)
+    console.log("FIRST LOAD LOGIN TEST", user_id, username)
 
     if (user_id && username) {
       if(loginTest(username)) refreshLoginAndData()
     }
   }, [loginStatus])
+  
+  useEffect(() => {
+    refreshUserData()
+    refreshAllPlants()
+    if(user) refreshUserHouseplants()
+    console.log("USERHOUSEPLANTS",userHouseplants)
+  }, [user])
+
+
 
   const refreshLoginAndData = () => {
     const userIdLoggedIn = localStorage.getItem('user_id') 
@@ -70,20 +86,13 @@ function App() {
       setUser(false)
     }
   }
-   
-  useEffect(() => {
-    refreshUserData()
-    refreshAllPlants()
-    if(user) refreshUserHouseplants()
-    console.log("USERHOUSEPLANTS",userHouseplants)
-  }, [user])
-
+  
   const refreshUserData = () => {
     if (user && user!=='undefined') {
       // console.log("USER",user)
       axiosInstance.get(`users/alldetails/${user}`)
         .then((res) => {
-          // console.log("USER",res.data)
+          console.log("REFRESH USER RES",res.data)
           setUserData(res.data)
         })
         .then((res) => {

@@ -3,6 +3,7 @@ import {UserContext} from '../ContextFiles/UserContext'
 import {useNavigate} from 'react-router-dom'
 import { LoginContext } from '../ContextFiles/LoginContext'
 import { Navbar, Nav, Container } from 'react-bootstrap'
+import {FiSettings} from 'react-icons/fi'
 
 import logo_png from '../assets/logo.png'
 
@@ -23,11 +24,15 @@ function TopNav(props) {
         {/* Green Thumb */}
       </Navbar.Brand>
 
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id='responsive-navbar-nav'>
           <Nav>
             <Nav.Link href='/'>Home</Nav.Link>
-            <Nav.Link href='/logout'>Log out</Nav.Link>
+            <Nav.Link href='/'>Browse All Plants</Nav.Link>
+          </Nav>
+          <Nav>
+            <Nav.Link href='/logout'>Logout</Nav.Link>
+            <Nav.Link href='/preferences'>Preferences <FiSettings /></Nav.Link>
           </Nav>
         </Navbar.Collapse>
     </Container>
