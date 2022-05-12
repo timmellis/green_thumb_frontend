@@ -1,4 +1,4 @@
-const global_vars = {
+export const GlobalVars = {
   "water_freq_vars": 
     [
       "Daily",
@@ -65,4 +65,4 @@ const global_vars = {
     ]
 }
 
-export default global_vars;
+export default GlobalVars;
