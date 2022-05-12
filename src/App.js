@@ -12,6 +12,8 @@ import {LoginContext} from './ContextFiles/LoginContext'
 import Home from './pages/Home'
 import Plants from './pages/Plants'
 import TopNav from './components/Nav'
+import Calendar from './components/Calendar'
+import UserForm from './components/UserForm'
 import LocationForm from './components/LocationForm'
 import PlantForm from './components/PlantForm'
 import HouseplantForm from './components/HouseplantForm'
@@ -128,7 +130,7 @@ function App() {
   }
 
 
-console.log(loginStatus)
+console.log("APP.js LOGIN STATUS", loginStatus)
 
 if (loginStatus==='unset') return (
   <div className="App">
@@ -161,6 +163,9 @@ else if (loginStatus && userData) return (
           <Route path='/Logout' element={<Logout />} />
 
           <Route path='/' element={<Home />} />
+
+          <Route path='/preferences' element={<UserForm />} />
+          <Route path='/calendar' element={<Calendar />} />
 
           <Route path='/new/houseplant' element={<HouseplantForm />} />
           <Route path='/update/houseplant/:id' element={<HouseplantForm />} />

@@ -1,168 +1,169 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {UserContext} from '../ContextFiles/UserContext'
-import {Routes, Route, useParams, useSearchParams, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import axiosInstance from '../Axios'
 import {Form, Button, Col, Row} from 'react-bootstrap'
 
 function UserForm(props) {
 
+
+  // GLOBAL VARS
+  // daysOfWeek will determine the order of "Days" dropdown in "Preferences"
+  const daysOfWeek = ['Sunday', 'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+
+
   const navigate = useNavigate()
-  const {userData, refreshUserData} = useContext(UserContext)
-  const {id} = useParams()
-  const isDelete = props.action === 'delete' ? true : false
 
-  const [userPreferences, setUserPreferences] = useState({
-    id: null,
-    name: "",
-    description: "",
-    img_url: "",
-    light_level: "",
-    temp: "",
-    humidity: "",
-    notes: ""
-  })
+  const {user, userData, refreshUserData} = useContext(UserContext)
+  // const isDelete = props.action === 'delete' ? true : false
+
+  const [userPreferences, setUserPreferences] = useState({})
 
   useEffect(() => {
-    if (userData) setUserPreferences({...userPreferences, id: userData.id})
-  },[userData])
+    if (userData) setUserPreferences({
+      ...userData, 
+      id: userData.id,
+      first_name: userData.first_name,
+      last_name: userData.last_name,
+      username: userData.username,
+      email: userData.email,
+      profile_img: userData.profile_img,
+      pref_day1: userData.pref_day1,
+      pref_day2: userData.pref_day2,
 
-  useEffect(() => {         // IF id, then populate form w existing data 
-    if (userData) {
-      setUserPreferences({...userPreferences, 
-        id: thisLoc.user_id,
-        name: thisLoc.name, 
-        description: thisLoc.description,
-        img_url: thisLoc.img_url,
-        light_level: thisLoc.light_level,
-        temp: thisLoc.temp,
-        humidity: thisLoc.humidity,
-        notes: thisLoc.notes
-      })
-      // Object.keys(thisLoc).forEach((a) => {
-      //   console.log("THISKEY",a, "THISLOC[a]", thisLoc[a], "NEWLOC",newLoc)
-      //   if (a==='id' || a==='img_url' || a==='plants') console.log(null)
-      //   else setNewLoc({...newLoc, [a]: "this"})
-      // })
-    }
-  }, [userData])
-
-  useEffect(() => {
-    console.log("NEWLOC = ",newLoc)
-  })
+    })
+    console.log('userdata',userData,'userPrefs',userPreferences)
+  },[])
 
   const handleChange = (e) => {
-    setNewLoc({...newLoc, [e.target.name]: e.target.value})
+    setUserPreferences({...userPreferences, [e.target.name]: e.target.value})
+    console.log(e.target.name, "=", e.target.value)
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-     
-    let res
-    if(!id) res = 
-      axiosInstance.post('locations/', newLoc)
-        .then(()=>refreshUserData())
-        .then(()=>navigate(-1))
-        .catch(console.error)
-    else if (id && !isDelete) res =
-      axiosInstance.put(`locations/${id}`, newLoc)
-        .then(()=>refreshUserData())
-        .then(()=>navigate('/'))
-        .catch(console.error)
-    else if (id && isDelete) res =
-        axiosInstance.delete(`locations/${id}`)
-        .then(()=>refreshUserData())
-        .then(()=>navigate('/'))
-        .catch(console.error)
-    console.log(res)
+    e.preventDefault()  
+    console.log("SUBMIT",userPreferences)
+    axiosInstance.put(`users/${userData.id}`, userPreferences)
+      .then(res => {
+        console.log("RES",res)
+        refreshUserData()
+
+      })
+      .catch(error => console.error)
+    // if(!id) res = 
+    //   axiosInstance.post('locations/', userPreferences)
+    //     .then(()=>refreshUserData())
+    //     .then(()=>navigate(-1))
+    //     .catch(console.error)
+    // else if (id) res =
+    //   axiosInstance.put(`locations/${id}`, userPreferences)
+    //     .then(()=>refreshUserData())
+    //     .then(()=>navigate('/'))
+    //     .catch(console.error)
+    // console.log(res)
   }
 
 
+  
   if (userData) {
     return (
     <div className='form form-container form-locations'>
-      <h2>{id ? (isDelete ? "Delete " : "Update ") : "Create New "}
-        Location{isDelete ? "?" : ":"}
+      <h2>
+        Profile Info & Preferences
       </h2>
 
       <Form onSubmit={(e)=>handleSubmit(e)} className='d-grid form-location'>
         <Form.Group className='d-grid gap-2'>
+          <h5> Title </h5>
 
         {/* YOU CAN DELETE THIS AFTER DEVELOPMENT */}
         
-        <Row>
+        {/* <Row>
         <Col xs={12} lg={12} className='form-line-content'>
           <h5>{userData.first_name}'s Home</h5>
         </Col>
-        </Row>
+        </Row> */}
 
         
         <Row>
           <Col xs={12} lg={3} className='form-line-title'>
-            <Form.Label htmlFor='name'>Name: </Form.Label>
+            <Form.Label htmlFor='first_name'>First Name: </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control type='text' name='name' id='loc-name' value={newLoc.name} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+            <Form.Control type='text' name='first_name' id='first-name' value={userPreferences.first_name} onChange={(e)=>handleChange(e)} />
           </Col>
         </Row>
 
         <Row>
           <Col xs={12} lg={3} className='form-line-title'>
-            <Form.Label htmlFor='description'>Description: </Form.Label>
+            <Form.Label htmlFor='last_name'>Last Name: </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control as='textarea' name='description' id='loc-description' value={newLoc.description} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+            <Form.Control type='text' name='last_name' id='last-name' value={userPreferences.last_name} onChange={(e)=>handleChange(e)} />
           </Col>
         </Row>
 
         <Row>
           <Col xs={12} lg={3} className='form-line-title'>
-            <Form.Label htmlFor='img_url'>Image: </Form.Label>
+            <Form.Label htmlFor='username'>Username: </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control type='text' name='img_url' id='loc-img-url' value={newLoc.img_url} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+            <Form.Control type='text' name='username' id='username' value={userPreferences.username} onChange={(e)=>handleChange(e)} />
           </Col>
         </Row>
 
         <Row>
           <Col xs={12} lg={3} className='form-line-title'>
-            <Form.Label htmlFor='light_level'>Light Level: </Form.Label>
+            <Form.Label htmlFor='email'>Email: </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control type='text' name='light_level' id='loc-light-level' value={newLoc.light_level} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+            <Form.Control type='email' name='email' id='email' value={userPreferences.email} onChange={(e)=>handleChange(e)}  />
           </Col>
         </Row>
 
         <Row>
           <Col xs={12} lg={3} className='form-line-title'>
-            <Form.Label htmlFor='temp'>Avg. Temp.: </Form.Label>
+            <Form.Label htmlFor='profile_img'>Profile Image: </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control type='text' name='temp' id='loc-temp' value={newLoc.temp} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+            <Form.Control type='text' name='profile_img' id='profile-img' value={userPreferences.profile_img} onChange={(e)=>handleChange(e)} />
+          </Col>
+        </Row>
+        
+        <Row>
+          <Col xs={12} lg={3} className='form-line-title'>
+            <Form.Label htmlFor='pref_day1'>Weekly Plant Care Day: </Form.Label>
+          </Col>
+          <Col xs={12} lg={9} className='form-line-content'>
+            <Form.Select name='pref_day1' id='pref-day1' value={userPreferences.pref_day1} onChange={(e)=>handleChange(e)}>
+              {daysOfWeek.map((day, i) => (
+                <option value={i}>
+                  {day}
+                </option>
+              ))}
+            </Form.Select>
           </Col>
         </Row>
 
         <Row>
           <Col xs={12} lg={3} className='form-line-title'>
-            <Form.Label htmlFor='humidity'>Avg. Humidity: </Form.Label>
+            <Form.Label htmlFor='pref_day2'>Secondary Plant Care Day: </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control type='text' name='humidity' id='loc-humidity' value={newLoc.humidity} onChange={(e)=>handleChange(e)} disabled={isDelete} />
-          </Col>
-        </Row>
-
-        <Row>
-          <Col xs={12} lg={3} className='form-line-title'>
-            <Form.Label htmlFor='notes'>Notes: </Form.Label>
-          </Col>
-          <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control as='textarea' type='text' name='notes' id='loc-notes' value={newLoc.notes} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+            <Form.Select name='pref_day2' id='pref-day2' value={userPreferences.pref_day2} onChange={(e)=>handleChange(e)}>
+              {daysOfWeek.map((day, i) => (
+                  <option value={i} selected={i===3}>
+                    {day}
+                  </option>
+                ))}
+            </Form.Select>
           </Col>
         </Row>
 
           <Form.Label></Form.Label>
           <div className='form-buttons'>
-            <Button type='submit' className={isDelete ? "delete-button" : "submit-button"}>
-              {!isDelete ? "Submit" : "Delete"}
+            <Button type='submit' className='submit-button'>
+              Save
             </Button>
             <Button variant='secondary' type='cancel' className='cancel-button' onClick={()=>navigate(-1)}>
               Cancel

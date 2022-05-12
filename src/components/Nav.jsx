@@ -28,7 +28,8 @@ function TopNav(props) {
         <Navbar.Collapse id='responsive-navbar-nav'>
           <Nav>
             <Nav.Link href='/'>Home</Nav.Link>
-            <Nav.Link href='/'>Browse All Plants</Nav.Link>
+            <Nav.Link href='/calendar'>Your Calendar</Nav.Link>
+            <Nav.Link href='/plants'>Browse All Plants</Nav.Link>
           </Nav>
           <Nav>
             <Nav.Link href='/logout'>Logout</Nav.Link>
