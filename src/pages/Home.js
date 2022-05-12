@@ -63,14 +63,6 @@ function Home(props) {
         <Icon.GeoFill /> Add New Location...
       </Button>
 
-
-      {/* <p>Or, check out ALL the plants folks have registered so far!</p>
-      {allPlants.map((d,i) => (
-        <div className='all-plants-container section-container dropdown-container' key={i}>
-          <ItemDropdown item={d} key={i} id={i} />
-        </div>
-      ))}
-      <button onClick={handleClick}>Click</button> */}
     </div>
     )
   } else {

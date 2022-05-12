@@ -169,7 +169,7 @@ function HouseplantForm(props) {
           <Button type='submit' className={!isDelete ? "submit-button" : "delete-button"} variant={!isDelete ? 'primary' : 'danger'}>
             {!isDelete ? <span><RiPlantLine size='1.3rem' />Submit</span> : <span><Icon.XCircleFill /> Delete</span>}
           </Button>
-          <Button variant='secondary' type='cancel' className='cancel-button' onClick={()=>navigate('/')}>Cancel</Button>
+          <Button variant='secondary' type='cancel' className='cancel-button' onClick={()=>navigate(-1)}>Cancel</Button>
         </div>
       </Form.Group>
       </Form>
