@@ -1,6 +1,7 @@
 import './App.css';
 import {Route, Routes, useNavigate} from 'react-router-dom'
 import React, {useState, useEffect} from 'react'
+import {Spinner} from 'react-bootstrap'
 import * as Icon from 'react-bootstrap-icons';
 
 
@@ -29,7 +30,7 @@ function App() {
   const [userHouseplants, setUserHouseplants] = useState(null)
   const [allPlants, setAllPlants] = useState([])  
   
-  const [loginStatus, setLoginStatus] = useState(false)
+  const [loginStatus, setLoginStatus] = useState('unset')
 
 
   // console.log("LocalStorage",JSON.stringify(localStorage))
@@ -41,6 +42,9 @@ function App() {
       if (res.status === 200) {      
         setLoginStatus(true)
         return true
+      } else {
+        setLoginStatus(false)
+        return false
       }
     })
     .catch(error => console.error)
@@ -66,7 +70,7 @@ function App() {
       setUser(false)
     }
   }
-  
+   
   useEffect(() => {
     refreshUserData()
     refreshAllPlants()
@@ -116,8 +120,20 @@ function App() {
 
 
 console.log(loginStatus)
-if (loginStatus && userData) return (
-  <LoginContext.Provider value={{loginStatus, setLoginStatus}}>
+
+if (loginStatus==='unset') return (
+  <div className="App">
+
+    <div className='flex-full-col'>
+      <div className='loading-page'>
+        <Spinner animation="border" variant="primary" /> Loading...
+      </div>
+    </div>  
+  </div>
+)
+else if (loginStatus && userData) return (
+
+<LoginContext.Provider value={{loginStatus, setLoginStatus}}>
 
     <div className="App">
 
@@ -127,10 +143,10 @@ if (loginStatus && userData) return (
         <TopNav />
       </header>
 
-
+      <div className='App-body'>
+      <div className='flex-full-col-start container-lg' >
 
         <Routes>
-
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='/Logout' element={<Logout />} />
@@ -149,11 +165,15 @@ if (loginStatus && userData) return (
           <Route path='/new/location' element={<LocationForm />} />
           <Route path='/update/location/:id' element={<LocationForm />} />
           <Route path='/delete/location/:id' element={<LocationForm action='delete' />} />
-
         </Routes>
-
-      </UserContext.Provider>
-
+        <img
+              src={require("./assets/logo.png")}
+              alt="logo-large"
+              className="splash-logo"
+            />
+      </div>
+      </div>
+    </UserContext.Provider>
 
     </div>
   </LoginContext.Provider>
@@ -162,32 +182,19 @@ if (loginStatus && userData) return (
     <LoginContext.Provider value={{ loginStatus, setLoginStatus }}>
       <div className="App">
         <UserContext.Provider
-          value={{
-            user,
-            setUser,
-            userData,
-            setUserData,
-            refreshUserData,
-            allPlants,
-            refreshAllPlants,
-            userHouseplants,
-            refreshUserHouseplants,
-          }}
+          value={{ user, setUser, userData, setUserData, refreshUserData, allPlants, refreshAllPlants, userHouseplants, refreshUserHouseplants, }}
         >
           <header>
             <TopNav />
           </header>
-          <div className="flex-full-col">
-            {/* <h2>
-              Please <a href="/login">Log in</a>
-            </h2> */}
 
-          <Routes>
-            <Route path='/' element={<Login />} /> 
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/Logout" element={<Logout />} />
-          </Routes>
+          <div className="flex-full-col">
+            <Routes>
+              <Route path='/' element={<Login />} /> 
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/Logout" element={<Logout />} />
+            </Routes>
             <img
               src={require("./assets/logo.png")}
               alt="logo-large"

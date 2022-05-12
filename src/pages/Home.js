@@ -6,7 +6,7 @@ import {UserContext} from '../ContextFiles/UserContext'
 import ItemDropdown from '../components/ItemDropdown'
 import HouseplantDropdown from '../components/HouseplantDropdown'
 // import { LoginContext } from '../ContextFiles/LoginContext';
-import {Button} from 'react-bootstrap'
+import {Button, Spinner} from 'react-bootstrap'
 import * as Icon from 'react-bootstrap-icons'
 import {RiPlantFill,RiPlantLine} from 'react-icons/ri'
 import {GiFruitTree} from 'react-icons/gi'
@@ -34,7 +34,7 @@ function Home(props) {
   // if (userData && userData.name && userData.plants && userData.locations && userHouseplants) {
     if (userData && userHouseplants) {
     return (
-    <div>
+    <div className='container-lg'>
       <h1>
         Welcome, {userData.first_name ? userData.first_name : userData.username}!
       </h1>
@@ -69,7 +69,7 @@ function Home(props) {
       return (
         <div className='flex-full-col'>
           <div className='loading-page'>
-            Loading...
+            <Spinner animation="border" variant="primary" /> Loading...
             {console.log("user",user,'userData',userData,'userHouseplants',userHouseplants)}
           </div>
         </div>  

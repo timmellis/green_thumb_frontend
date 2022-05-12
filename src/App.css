@@ -27,7 +27,11 @@ input.form-control:focus {
 .App {
   text-align: center;
   box-sizing: border-box;
-  background-color: white;
+  background-color: (255,255,255,.75);
+}
+.App-body {
+  height: calc(100vh - 65px);
+  overflow-y: auto;
 }
 header {
   /* margin-bottom: 16px; */
@@ -91,28 +95,37 @@ a:hover, a.btn-link:hover {
   padding: 12px;
   border: solid 3px var(--main-color-50);
   border-radius: 8px;
-  background-color: rgba(255,255,255,.75);
+  background-color: rgba(255,255,255,1);
   z-index:10;
 
 }
 
 .splash-logo {
-  z-index:0;
   max-width:75%;
+  max-height: calc(100vh - 90px);
   margin: 18px auto;
   opacity: 50%;
-  position: absolute;
+  position: fixed;
   top:50%;
   transform: translate(0,-50%);
+  z-index:-1;
 }
 
-.flex-full-col {
+.flex-full-col, .flex-full-col-start {
   height: calc(100vh - 72px);
   display:flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index:10;
+
 }
+.flex-full-col-start {
+  padding-top:12px;
+  justify-content: start;
+  background-color: rgba(255,255,255,.75);
+}
+
 
 
 /* MAIN PAGE DROPDOWN COMPONENTS */
