@@ -223,6 +223,6 @@ a:hover, a.btn-link:hover {
 .form-buttons button[type=cancel] {
   flex: 1;
 }
-.form-plants, .form-houseplants, .form-location {
+.form-plants, .form-houseplants, .form-locations {
   margin-top: 16px;
 }

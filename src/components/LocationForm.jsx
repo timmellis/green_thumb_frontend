@@ -1,8 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {UserContext} from '../ContextFiles/UserContext'
 import {Routes, Route, useParams, useSearchParams, useNavigate} from 'react-router-dom'
-import Axios from 'axios'
-import API from '../API'
+import axiosInstance from '../Axios'
+import {Form, Button, Col, Row} from 'react-bootstrap'
 
 function LocationForm(props) {
 
@@ -61,17 +61,17 @@ function LocationForm(props) {
      
     let res
     if(!id) res = 
-      API.post('locations/', newLoc)
+      axiosInstance.post('locations/', newLoc)
         .then(()=>refreshUserData())
         .then(()=>navigate(-1))
         .catch(console.error)
     else if (id && !isDelete) res =
-      API.put(`locations/${id}`, newLoc)
+      axiosInstance.put(`locations/${id}`, newLoc)
         .then(()=>refreshUserData())
         .then(()=>navigate('/'))
         .catch(console.error)
     else if (id && isDelete) res =
-        API.delete(`locations/${id}`)
+        axiosInstance.delete(`locations/${id}`)
         .then(()=>refreshUserData())
         .then(()=>navigate('/'))
         .catch(console.error)
@@ -81,46 +81,97 @@ function LocationForm(props) {
 
   if (userData) {
     return (
-    <div className='form-container form-location-container'>
+    <div className='form form-container form-locations'>
       <h2>{id ? (isDelete ? "Delete " : "Update ") : "Create New "}
         Location{isDelete ? "?" : ":"}
       </h2>
 
-      <form onSubmit={(e)=>handleSubmit(e)} className='form-location'>
+      <Form onSubmit={(e)=>handleSubmit(e)} className='d-grid form-location'>
+        <Form.Group className='d-grid gap-2'>
 
-      {/* YOU CAN DELETE THIS AFTER DEVELOPMENT */}
-        <label htmlFor='id'>user_id: </label>
-        <input type='text' name='user_id' id='loc-user-id' value={newLoc.user_id + " (" + userData.name + ")"} onChange={(e)=>handleChange(e)} disabled />
+        {/* YOU CAN DELETE THIS AFTER DEVELOPMENT */}
+        
+        <Row>
+        <Col xs={12} lg={12} className='form-line-content'>
+          <h5>{userData.first_name}'s Home</h5>
+        </Col>
+        </Row>
 
-        <label htmlFor='name'>Name: </label>
-        <input type='text' name='name' id='loc-name' value={newLoc.name} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+        
+        <Row>
+          <Col xs={12} lg={3} className='form-line-title'>
+            <Form.Label htmlFor='name'>Name: </Form.Label>
+          </Col>
+          <Col xs={12} lg={9} className='form-line-content'>
+            <Form.Control type='text' name='name' id='loc-name' value={newLoc.name} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+          </Col>
+        </Row>
 
-        <label htmlFor='description'>Description: </label>
-        <textarea name='description' id='loc-description' value={newLoc.description} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+        <Row>
+          <Col xs={12} lg={3} className='form-line-title'>
+            <Form.Label htmlFor='description'>Description: </Form.Label>
+          </Col>
+          <Col xs={12} lg={9} className='form-line-content'>
+            <Form.Control as='textarea' name='description' id='loc-description' value={newLoc.description} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+          </Col>
+        </Row>
 
-        {/* <label htmlFor='img_url'>Image: </label>
-        <input type='file' name='img_url' id='loc-img-url' value={newLoc.img_url} onChange={(e)=>handleChange(e)} /> */}
-        <label htmlFor='img_url'>Image: </label>
-        <input type='text' name='img_url' id='loc-img-url' value={newLoc.img_url} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+        <Row>
+          <Col xs={12} lg={3} className='form-line-title'>
+            <Form.Label htmlFor='img_url'>Image: </Form.Label>
+          </Col>
+          <Col xs={12} lg={9} className='form-line-content'>
+            <Form.Control type='text' name='img_url' id='loc-img-url' value={newLoc.img_url} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+          </Col>
+        </Row>
 
-        <label htmlFor='light_level'>Light level: </label>
-        <input type='text' name='light_level' id='loc-light-level' value={newLoc.light_level} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+        <Row>
+          <Col xs={12} lg={3} className='form-line-title'>
+            <Form.Label htmlFor='light_level'>Light Level: </Form.Label>
+          </Col>
+          <Col xs={12} lg={9} className='form-line-content'>
+            <Form.Control type='text' name='light_level' id='loc-light-level' value={newLoc.light_level} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+          </Col>
+        </Row>
 
-        <label htmlFor='temp'>Avg. Temp.: </label>
-        <input type='text' name='temp' id='loc-temp' value={newLoc.temp} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+        <Row>
+          <Col xs={12} lg={3} className='form-line-title'>
+            <Form.Label htmlFor='temp'>Avg. Temp.: </Form.Label>
+          </Col>
+          <Col xs={12} lg={9} className='form-line-content'>
+            <Form.Control type='text' name='temp' id='loc-temp' value={newLoc.temp} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+          </Col>
+        </Row>
 
-        <label htmlFor='humidity'>Avg. Humidity: </label>
-        <input type='text' name='humidity' id='loc-humidity' value={newLoc.humidity} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+        <Row>
+          <Col xs={12} lg={3} className='form-line-title'>
+            <Form.Label htmlFor='humidity'>Avg. Humidity: </Form.Label>
+          </Col>
+          <Col xs={12} lg={9} className='form-line-content'>
+            <Form.Control type='text' name='humidity' id='loc-humidity' value={newLoc.humidity} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+          </Col>
+        </Row>
 
-        <label htmlFor='notes'>Notes: </label>
-        <input type='text' name='notes' id='loc-notes' value={newLoc.notes} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+        <Row>
+          <Col xs={12} lg={3} className='form-line-title'>
+            <Form.Label htmlFor='notes'>Notes: </Form.Label>
+          </Col>
+          <Col xs={12} lg={9} className='form-line-content'>
+            <Form.Control as='textarea' type='text' name='notes' id='loc-notes' value={newLoc.notes} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+          </Col>
+        </Row>
 
-        <label></label>
-        <div className='form-buttons'>
-          <button type='submit' className={isDelete ? "delete-button" : "submit-button"}>{!isDelete ? "Submit" : "Delete"}</button>
-          <button type='cancel' className='cancel-button' onClick={()=>navigate(-1)}>Cancel</button>
-        </div>
-      </form>
+          <Form.Label></Form.Label>
+          <div className='form-buttons'>
+            <Button type='submit' className={isDelete ? "delete-button" : "submit-button"}>
+              {!isDelete ? "Submit" : "Delete"}
+            </Button>
+            <Button variant='secondary' type='cancel' className='cancel-button' onClick={()=>navigate(-1)}>
+              Cancel
+            </Button>
+          </div>
+        </Form.Group>
+      </Form>
 
     </div>
   );

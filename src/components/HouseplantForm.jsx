@@ -164,7 +164,7 @@ function HouseplantForm(props) {
         </Row>
 
 
-        <label></label>
+        <Form.Label></Form.Label>
         <div className='form-buttons'>
           <Button type='submit' className={!isDelete ? "submit-button" : "delete-button"} variant={!isDelete ? 'primary' : 'danger'}>
             {!isDelete ? <span><RiPlantLine size='1.3rem' />Submit</span> : <span><Icon.XCircleFill /> Delete</span>}
