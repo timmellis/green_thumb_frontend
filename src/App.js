@@ -116,7 +116,7 @@ function App() {
 
 
 console.log(loginStatus)
-if (loginStatus) return (
+if (loginStatus && userData) return (
   <LoginContext.Provider value={{loginStatus, setLoginStatus}}>
 
     <div className="App">
