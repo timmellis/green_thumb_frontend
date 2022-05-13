@@ -1,6 +1,7 @@
 :root {
   --main-color: rgb(20, 158, 124);
   --main-color-50: rgba(20, 158, 124, 0.5);
+  --main-color-25: rgba(20, 158, 124, 0.25);
   --main-color-highlight: #89cebd;
   --highlight-color: rgba(69, 235, 193, 0.5);
   --secondary-color: rgb(236, 118, 78);
@@ -25,7 +26,14 @@ input.form-control:focus {
   box-shadow: 0 0 3px 3px var(--main-color-50);
 }
 
+
+/* MAIN APP STYLING */
+* {
+  font-family: 'Josefin Sans', sans-serif;
+
+}
 .App {
+  font-family: 'Josefin Sans', sans-serif;
   text-align: center;
   box-sizing: border-box;
   background-color: (255,255,255,.75);
@@ -259,4 +267,33 @@ a:hover, a.btn-link:hover {
 /* CALENDAR */
 a.fc-event {
   cursor: pointer;
+}
+div.fc-daygrid-day-top {
+  background: rgba(255,255,255,.75);
+  padding: 0px;
+}
+.fc a.fc-daygrid-day-number {
+  padding: 2px;
+  color: var(--main-color);
+}
+
+#calendar-event-modal .modal-header {
+  padding: .75em 1em 0 1em;
+  background: var(--main-color-50);
+}
+#calendar-event-modal .modal-title {
+  line-height: 1em;
+}
+#calendar-event-modal .event-modal-body-section {
+  padding: 0 8px;  
+}
+#calendar-event-modal .event-modal-body-section:nth-of-type(odd) {
+  background: var(--main-color-25);
+}
+#calendar-event-modal .event-modal-body-section span {
+  font-weight: 300;
+}
+#calendar-event-modal .event-modal-body-section.eventfocus {
+  border: solid 2px blue;
+  background-color: lightskyblue;
 }

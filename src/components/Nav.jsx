@@ -30,7 +30,7 @@ function TopNav(props) {
         {/* Green Thumb */}
       </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls="basic-navbar-nav" collapseOnSelect />
+        <Navbar.Toggle aria-controls="basic-navbar-nav"  />
         <Navbar.Collapse id='responsive-navbar-nav'  >
           <Nav>
             <Nav.Link href='/' onClick={navLinkBugFix}>Home</Nav.Link>
@@ -38,8 +38,8 @@ function TopNav(props) {
             <Nav.Link href='/plants' onClick={navLinkBugFix}>Browse Plants</Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link href='/logout' onClick={navLinkBugFix}>Logout</Nav.Link>
             <Nav.Link href='/preferences' onClick={navLinkBugFix}>Preferences <FiSettings /></Nav.Link>
+            <Nav.Link href='/logout' onClick={navLinkBugFix}>Logout</Nav.Link>
           </Nav>
         </Navbar.Collapse>
     </Container>

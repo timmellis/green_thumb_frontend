@@ -45,7 +45,11 @@ function Login(props) {
               localStorage.setItem('user_id', res.data.id)
               localStorage.setItem('username', login.username)
               setLoginStatus(true)
+            })
+            .then(() => {
+              console.log('next step')
               navigate('/')
+              setTimeout(()=>navigate('/'),2000)
             })
         })
         .catch(error => console.error)

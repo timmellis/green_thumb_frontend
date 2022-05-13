@@ -32,6 +32,7 @@ function Calendar(props) {
   const formatter = () => {
     // if (userHouseplants) {
     setFormattedData(
+
       ///// WATERING SCHEDULE FORMATTING /////
       userHouseplants.map((hp, i) => {
         let hpFreq = 'weekly'
@@ -46,19 +47,35 @@ function Calendar(props) {
         } else if (hp.plant.water_freq.toLowerCase() === "twice per week") {
           // hpFreq = 'weekly'
           hpByweekday = [...hpByweekday, parseInt(userData.pref_day2)]
+        } else if (hp.plant.water_freq.toLowerCase() === "daily") {
+          hpByweekday = []
         } else {
           hpFreq = hp.plant.water_freq.toLowerCase()
         }
 
         const oneEvent = {
           title: hp.plant.name,
-          notes: hp.notes,
           startRecur: `${hp.date_created.slice(0, 10)}`,
           rrule: {
             freq: hpFreq,
             interval: hpInterval,
             byweekday: hpByweekday,
-          }
+          },
+          eventfocus: 'watering',
+          sciname: hp.plant.sci_name,
+          notes: hp.notes,
+          location: hp.location.name,
+          waterfreq: hp.plant.water_freq,
+          waterqty: hp.plant.water_qty,
+          ferttype: hp.plant.fertilizer_type,
+          fertfreq: hp.plant.fertilizer_freq,
+          temp: hp.plant.temp,
+          humidity: hp.plant.humidity,
+          light: hp.plant.light_level,
+          description: hp.plant.description
+
+
+
         }
         return oneEvent
       })
@@ -79,6 +96,7 @@ function Calendar(props) {
   if (user && userHouseplants && formattedData) 
   return (
     <div className='container-lg'>
+
       <FullCalendar 
         plugins={[dayGridPlugin, rrulePlugin]}
         // headerToolbar={{
@@ -105,26 +123,65 @@ function Calendar(props) {
       }
         eventClick={(item)=>{
           console.log('Event ' + JSON.stringify(item.event))
-          handleShow()
           setModalDisplay({
             title: item.event.title,
+            sciname: item.event.extendedProps.sciname, 
             notes: item.event.extendedProps.notes,
-            something: item.event.extendedProps.anotherThing
+            location: item.event.extendedProps.location,
+            waterqty: item.event.extendedProps.waterqty,
+            waterfreq: item.event.extendedProps.waterfreq,
+            ferttype: item.event.extendedProps.ferttype,
+            fertfreq: item.event.extendedProps.fertfreq,
+            temp: item.event.extendedProps.temp,
+            humidity: item.event.extendedProps.humidity,
+            light: item.event.extendedProps.light,
+            description: item.event.extendedProps.description,
+            
+            eventfocus: item.event.extendedProps.eventfocus,
           })
+          handleShow()
+          console.log('modalDisplay' + JSON.stringify(modalDisplay))
         }}
       />
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} id='calendar-event-modal'>
         <Modal.Header closeButton>
-          <Modal.Title>{modalDisplay.title}</Modal.Title>
+          <Modal.Title>
+            <div>{modalDisplay.title}</div>
+            <div className='modal-subtitle' style={{fontSize:'.8em', fontStyle:'italic', fontWeight:'300', marginTop:'0'}}>{modalDisplay.sciname}</div>
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body>{modalDisplay.notes} {modalDisplay.something}</Modal.Body>
+        <Modal.Body>
+          <div className='event-modal-body-section' id='event-location'>
+            Location: {modalDisplay.location}
+          </div>
+          <div className='event-modal-body-section' id='event-notes'>
+            Notes: <span>{modalDisplay.notes}</span>
+          </div>
+          <div className={`event-modal-body-section 
+          ${modalDisplay.eventfocus==='watering' ? 'eventfocus' : ''}`} 
+           id='event-watering'>
+            Watering: &nbsp;
+            {!modalDisplay.eventfocus ? 
+              <span> {modalDisplay.waterqty} | {modalDisplay.waterfreq} </span>
+              :  `${modalDisplay.waterqty} | ${modalDisplay.waterfreq}`
+            }
+          </div>
+          <div className='event-modal-body-section' id='event-fertilizer'>
+            Fertilizer: <span>{modalDisplay.ferttype} | {modalDisplay.fertfreq}</span>
+          </div>
+          <div className='event-modal-body-section' id='event-light-temp'>
+            Light: <span>{modalDisplay.light}</span> | Temp: <span>{modalDisplay.temp}</span>
+          </div>
+          <div className='event-modal-body-section' id='event-descr'>
+            Description: <span>{modalDisplay.description}</span>
+          </div>
+          
+        
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" size='sm' onClick={handleClose}>
             Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
           </Button>
         </Modal.Footer>
       </Modal>

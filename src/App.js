@@ -38,12 +38,12 @@ function App() {
   useEffect(()=>{
     const user_id = localStorage.getItem('user_id')
     const username = localStorage.getItem('username')
-    console.log("APP.JS---FIRST LOAD LOGIN TEST", user_id, username)
+    console.log("APP.JS---FIRST LOAD LOGIN TEST", user_id, username, loginStatus)
 
     // IF localStorage data exists AND passes LoginTest(), THEN refresh login status and load user data ( refreshLoginAndData() )
     if (user_id && username) {
       if(loginTest(username)) refreshLoginAndData()   
-    }
+    } else setLoginStatus(false)
   }, [loginStatus])
 
 
@@ -52,19 +52,19 @@ function App() {
     await axiosInstance.get(`users/${username}`)
     .then(res => {
       if (res.status === 200) {
-        // console.log("loginTest 200")
+        console.log("loginTest 200")
         setLoginStatus(true)
         return true
       } else {
-        // console.log("loginTest =/= 200")
+        console.log("loginTest =/= 200")
         setLoginStatus(false)
         return false
       }
     })
     .catch(error => {
-      // console.log("loginTest error")
-      console.error()
+      console.log("loginTest error")
       setLoginStatus(false)
+      console.error()
     })
   }
 
@@ -72,13 +72,6 @@ function App() {
   //   loginTest()
   // }, [])
 
-  
-  useEffect(() => {
-    refreshUserData()
-    refreshAllPlants()
-    if(user) refreshUserHouseplants()
-    // console.log("USERHOUSEPLANTS",userHouseplants)
-  }, [user])
 
 
 
@@ -88,6 +81,7 @@ function App() {
     if (userIdLoggedIn) {
       // console.log("LOGIN STATUS", loginStatus, JSON.stringify(localStorage))
       setUser(localStorage.getItem('user_id'))
+      refreshUserData()
     } else {
       setUser(false)
     }
@@ -98,7 +92,7 @@ function App() {
       // console.log("USER",user)
       axiosInstance.get(`users/alldetails/${user}`)
         .then((res) => {
-          // console.log("REFRESH USER RES",res.data)
+          console.log("REFRESH USER RES",res.data)
           setUserData(res.data)
         })
         .then((res) => {
@@ -107,6 +101,17 @@ function App() {
         .catch(console.error)
     }
   }
+
+    
+  useEffect(() => {
+    if (loginStatus===true) {
+      refreshUserData()
+      refreshAllPlants()
+    }
+    if(user) refreshUserHouseplants()
+    // console.log("USERHOUSEPLANTS",userHouseplants)
+  }, [user])
+
 
   const refreshUserHouseplants = () => {
     axiosInstance.get(`houseplants/`)
@@ -136,16 +141,39 @@ function App() {
 
 // console.log("APP.js LOGIN STATUS", loginStatus)
 
-if (loginStatus==='unset') return (
-  <div className="App">
 
-    <div className='flex-full-col'>
-      <div className='loading-page'>
-        <Spinner animation="border" variant="primary" /> Loading...
-      </div>
-    </div>  
-  </div>
-)
+
+
+
+if (loginStatus===false) return (
+  <LoginContext.Provider value={{ loginStatus, setLoginStatus }}>
+    {console.log(loginStatus && userData)}
+    <div className="App">
+      <UserContext.Provider
+        value={{ user, setUser, userData, setUserData, refreshUserData, allPlants, refreshAllPlants, userHouseplants, refreshUserHouseplants, }}
+      >
+        <header>
+          <TopNav />
+        </header>
+
+        <div className="flex-full-col">
+          <Routes>
+            <Route path='/' element={<Login />} /> 
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/Logout" element={<Logout />} />
+          </Routes>
+          <img
+            src={require("./assets/logo.png")}
+            alt="logo-large"
+            className="splash-logo"
+          />
+        </div>
+      </UserContext.Provider>
+    </div>
+  </LoginContext.Provider>
+);
+
 else if (loginStatus && userData) return (
 
 <LoginContext.Provider value={{loginStatus, setLoginStatus}}>
@@ -197,33 +225,24 @@ else if (loginStatus && userData) return (
     </div>
   </LoginContext.Provider>
   )
+  // else if (loginStatus==='unset') return (
   else return (
-    <LoginContext.Provider value={{ loginStatus, setLoginStatus }}>
-      <div className="App">
-        <UserContext.Provider
-          value={{ user, setUser, userData, setUserData, refreshUserData, allPlants, refreshAllPlants, userHouseplants, refreshUserHouseplants, }}
-        >
-          <header>
-            <TopNav />
-          </header>
-
-          <div className="flex-full-col">
-            <Routes>
-              <Route path='/' element={<Login />} /> 
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/Logout" element={<Logout />} />
-            </Routes>
-            <img
-              src={require("./assets/logo.png")}
-              alt="logo-large"
-              className="splash-logo"
-            />
-          </div>
-        </UserContext.Provider>
-      </div>
-    </LoginContext.Provider>
-  );
+    <div className="App">
+  
+      <div className='flex-full-col'>
+        <div className='loading-page'>
+          <Spinner animation="border" variant="primary" /> Loading...
+        </div>
+      </div>  
+    </div>
+  )
+  // else return (
+  //   <div>
+  //     error
+  //   </div>
+  // )
+ 
+  
 }
 
 export default App;

@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { useNavigate } from 'react-router-dom'
 import {LoginContext} from '../ContextFiles/LoginContext'
 import {UserContext} from '../ContextFiles/UserContext'
@@ -10,6 +10,8 @@ function Logout(props) {
   const {setLoginStatus} = useContext(LoginContext)
   const {user, userData, setUser, setUserData} = useContext(UserContext)
 
+  const [isLoggedOut, setIsLoggedOut] = useState()
+
   console.log("REFRESH TOKEN",localStorage.getItem('refresh_token'))
 
   const logout = async () => {
@@ -20,29 +22,33 @@ function Logout(props) {
   .then(res => {
     console.log("RES=",res)
       if (res.status) {
+        setIsLoggedOut(true)
         setLoginStatus(false)
-        return res
+        return true
       } else {
         console.log("ERROR: Logout attempt failed")
-        return res
+        return false
       }
     })
     .catch(error => {
       console.log("CATCH LOGOUT ERROR", error)
-      return console.error
+      console.error(error)
+      return false
     })
   }
 
   useEffect(()=> {
-    logout()
-    setLoginStatus(false)
-    localStorage.removeItem('refresh_token')
-    localStorage.removeItem('access_token')
-    localStorage.removeItem('token')
-    localStorage.removeItem('username')
-    localStorage.removeItem('user_id')
-    setUser(false)
-    setUserData(null)
+    if( logout() ) {
+      setLoginStatus(false)
+      localStorage.removeItem('refresh_token')
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+      localStorage.removeItem('user_id')
+      setUser(false)
+      setUserData(null)
+    }
+    console.log(isLoggedOut)
   },[])
 
   useEffect(()=>{
