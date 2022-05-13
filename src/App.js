@@ -107,10 +107,11 @@ function App() {
     if (loginStatus===true) {
       refreshUserData()
       refreshAllPlants()
+      console.log("refreshing")
     }
     if(user) refreshUserHouseplants()
     // console.log("USERHOUSEPLANTS",userHouseplants)
-  }, [user])
+  }, [user, loginStatus])
 
 
   const refreshUserHouseplants = () => {

@@ -297,3 +297,25 @@ div.fc-daygrid-day-top {
   border: solid 2px blue;
   background-color: lightskyblue;
 }
+
+
+div.sidebar-list-column {
+  text-align: justify;
+  justify-items: center;
+  align-items: center;
+}
+div.sidebar-list-container {
+  margin:0 auto;
+  border: solid thin #cdcdcd;
+  padding: 8px;
+  padding-left: 8px;
+  font-size: .85em;
+}
+div.sidebar-list-container .list-group-item {
+  padding: 4px;
+  line-height: 1em;
+  cursor: pointer;
+}
+div.sidebar-list-container .list-group-item:hover {
+  background-color: var(--main-color-25);
+}
