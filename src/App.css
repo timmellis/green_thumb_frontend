@@ -306,7 +306,7 @@ div.sidebar-list-column {
 }
 div.sidebar-list-container {
   margin:0 auto;
-  border: solid thin #cdcdcd;
+  /* border: solid thin #cdcdcd; */
   padding: 8px;
   padding-left: 8px;
   font-size: .85em;
