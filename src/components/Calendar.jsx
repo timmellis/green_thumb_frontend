@@ -25,11 +25,12 @@ function Calendar(props) {
   const handleShow = () => setShow(true);
 
   useEffect(()=> {
-    formatter()
-  },[])
+    console.log("effect")
+    if (userHouseplants) formatter()
+  },[userHouseplants])
 
   const formatter = () => {
-    if (userHouseplants) {
+    // if (userHouseplants) {
     setFormattedData(
       ///// WATERING SCHEDULE FORMATTING /////
       userHouseplants.map((hp, i) => {
@@ -62,7 +63,8 @@ function Calendar(props) {
         return oneEvent
       })
     )
-  }}
+  // }
+}
 
 
 
@@ -74,11 +76,16 @@ function Calendar(props) {
 
 
 
-  if (user && userData && formattedData) 
+  if (user && userHouseplants && formattedData) 
   return (
     <div className='container-lg'>
       <FullCalendar 
         plugins={[dayGridPlugin, rrulePlugin]}
+        // headerToolbar={{
+        //   start: 'title', // will normally be on the left. if RTL, will be on the right
+        //   center: 'Title',
+        //   end: 'today prev,next' // will normally be on the right. if RTL, will be on the left
+        // }}
         events={
           // [
           formattedData
@@ -103,7 +110,6 @@ function Calendar(props) {
             title: item.event.title,
             notes: item.event.extendedProps.notes,
             something: item.event.extendedProps.anotherThing
-
           })
         }}
       />
@@ -128,7 +134,7 @@ function Calendar(props) {
   else return (
     <div>
       Loading...
-      {/* {console.log(formattedData)} */}
+      {console.log(user, userHouseplants, formattedData)}
     </div>
   )
 }

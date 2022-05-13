@@ -35,39 +35,43 @@ function App() {
   const [loginStatus, setLoginStatus] = useState('unset')
 
 
-  // console.log("LocalStorage",JSON.stringify(localStorage))
-  
+  useEffect(()=>{
+    const user_id = localStorage.getItem('user_id')
+    const username = localStorage.getItem('username')
+    console.log("APP.JS---FIRST LOAD LOGIN TEST", user_id, username)
+
+    // IF localStorage data exists AND passes LoginTest(), THEN refresh login status and load user data ( refreshLoginAndData() )
+    if (user_id && username) {
+      if(loginTest(username)) refreshLoginAndData()   
+    }
+  }, [loginStatus])
+
+
   async function loginTest(username) {
+    // console.log("loginTest 1", username)
     await axiosInstance.get(`users/${username}`)
     .then(res => {
-      // console.log("HOME LOGINTEST RES", res)
-      if (res.status === 200) {      
+      if (res.status === 200) {
+        // console.log("loginTest 200")
         setLoginStatus(true)
         return true
       } else {
+        // console.log("loginTest =/= 200")
         setLoginStatus(false)
         return false
       }
     })
     .catch(error => {
+      // console.log("loginTest error")
       console.error()
       setLoginStatus(false)
     })
   }
 
-  useEffect(() => {
-    loginTest()
-  }, [])
+  // useEffect(() => {
+  //   loginTest()
+  // }, [])
 
-  useEffect(()=>{
-    const user_id = localStorage.getItem('user_id')
-    const username = localStorage.getItem('username')
-    console.log("FIRST LOAD LOGIN TEST", user_id, username)
-
-    if (user_id && username) {
-      if(loginTest(username)) refreshLoginAndData()
-    }
-  }, [loginStatus])
   
   useEffect(() => {
     refreshUserData()

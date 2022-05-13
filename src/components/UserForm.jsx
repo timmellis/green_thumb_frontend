@@ -2,7 +2,8 @@ import React, {useState, useEffect, useContext} from 'react';
 import {UserContext} from '../ContextFiles/UserContext'
 import {useNavigate} from 'react-router-dom'
 import axiosInstance from '../Axios'
-import {Form, Button, Col, Row} from 'react-bootstrap'
+import {Form, Button, Col, Row, Modal} from 'react-bootstrap'
+import {RiCheckboxCircleFill} from 'react-icons/ri'
 
 function UserForm(props) {
 
@@ -15,9 +16,14 @@ function UserForm(props) {
   const navigate = useNavigate()
 
   const {user, userData, refreshUserData} = useContext(UserContext)
+  const [userPreferences, setUserPreferences] = useState({})
   // const isDelete = props.action === 'delete' ? true : false
 
-  const [userPreferences, setUserPreferences] = useState({})
+  // BOOTSTRAP MODAL SETTINGS 
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
 
   useEffect(() => {
     if (userData) setUserPreferences({
@@ -162,7 +168,10 @@ function UserForm(props) {
 
           <Form.Label></Form.Label>
           <div className='form-buttons'>
-            <Button type='submit' className='submit-button'>
+            <Button type='submit' className='submit-button' onClick={() => {
+              handleShow(); 
+              setTimeout(()=>handleClose(), 1500);
+            }}>
               Save
             </Button>
             <Button variant='secondary' type='cancel' className='cancel-button' onClick={()=>navigate(-1)}>
@@ -171,6 +180,27 @@ function UserForm(props) {
           </div>
         </Form.Group>
       </Form>
+
+      <Modal show={show} onHide={handleClose} size='sm' centered style={{fontSize:'.75em', opacity:'.85'}}>
+        <Modal.Header closeButton style={{background:'var(--main-color-50)', padding:'8px'}}>
+          <Modal.Title variant='primary'></Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{padding:'8px', textAlign:'center'}}>
+          <RiCheckboxCircleFill /> Changes saved.
+        </Modal.Body>
+        {/* <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer> */}
+      </Modal>
+
+
+
+
 
     </div>
   );

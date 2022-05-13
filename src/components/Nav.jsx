@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {UserContext} from '../ContextFiles/UserContext'
-import {useNavigate} from 'react-router-dom'
+import {useNavigate, Link} from 'react-router-dom'
 import { LoginContext } from '../ContextFiles/LoginContext'
 import { Navbar, Nav, Container } from 'react-bootstrap'
 import {FiSettings} from 'react-icons/fi'
@@ -14,6 +14,12 @@ function TopNav(props) {
   const {loginStatus} = useContext(LoginContext)
   const {userData, user} = useContext(UserContext)
 
+  const navLinkBugFix = (e) => {
+    e.preventDefault(); 
+    navigate(e.target.attributes.href.nodeValue)
+  }
+
+
   if (loginStatus && userData && user) return (
     <div>
   <Navbar collapseOnSelect expand='lg'>
@@ -24,16 +30,16 @@ function TopNav(props) {
         {/* Green Thumb */}
       </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id='responsive-navbar-nav'>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" collapseOnSelect />
+        <Navbar.Collapse id='responsive-navbar-nav'  >
           <Nav>
-            <Nav.Link href='/'>Home</Nav.Link>
-            <Nav.Link href='/calendar'>Calendar</Nav.Link>
-            <Nav.Link href='/plants'>Browse Plants</Nav.Link>
+            <Nav.Link href='/' onClick={navLinkBugFix}>Home</Nav.Link>
+            <Nav.Link href='/calendar' onClick={navLinkBugFix}>Calendar</Nav.Link>
+            <Nav.Link href='/plants' onClick={navLinkBugFix}>Browse Plants</Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link href='/logout'>Logout</Nav.Link>
-            <Nav.Link href='/preferences'>Preferences <FiSettings /></Nav.Link>
+            <Nav.Link href='/logout' onClick={navLinkBugFix}>Logout</Nav.Link>
+            <Nav.Link href='/preferences' onClick={navLinkBugFix}>Preferences <FiSettings /></Nav.Link>
           </Nav>
         </Navbar.Collapse>
     </Container>

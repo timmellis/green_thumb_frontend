@@ -12,7 +12,7 @@
 button.btn {
   margin: 4px 8px;
 }
-button.btn-primary {
+button.btn-primary, button.btn-primary:focus {
   background-color: var(--main-color);
   border: solid thin var(--main-color-50);
 }
@@ -67,14 +67,19 @@ button.navbar-toggler:focus {
   font-weight: bold;
   border-radius: 8px;
 }
-.navbar-nav a:hover {
-  background-color: rgba(255,255,255,.65);
-  border-radius: 8px;
-}
 @media (min-width: 992px) {  
   .navbar-expand-lg .navbar-collapse {
     justify-content: space-between;
   }
+}
+.navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.active:visited, .navbar-light .navbar-nav .show>.nav-link {
+  color: var(--main-color);
+  text-decoration: underline;
+  background-color: rgba(255,255,255,.25);
+}
+.navbar-nav a:hover, .navbar-light .navbar-nav .nav-link.active:hover {
+  background-color: rgba(255,255,255,.65);
+  border-radius: 8px;
 }
 
 /* GENERIC ELEMENTS */
@@ -245,4 +250,13 @@ a:hover, a.btn-link:hover {
 }
 .form-plants, .form-houseplants, .form-locations {
   margin-top: 16px;
+}
+
+
+
+
+
+/* CALENDAR */
+a.fc-event {
+  cursor: pointer;
 }
