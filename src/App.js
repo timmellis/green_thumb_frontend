@@ -163,6 +163,7 @@ else if (loginStatus && userData) return (
           <Route path='/Logout' element={<Logout />} />
 
           <Route path='/' element={<Home />} />
+          <Route path='/home' element={<Home />} />
 
           <Route path='/preferences' element={<UserForm />} />
           <Route path='/calendar' element={<Calendar />} />
