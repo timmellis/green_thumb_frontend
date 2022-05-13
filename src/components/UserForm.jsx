@@ -9,7 +9,7 @@ function UserForm(props) {
 
   // GLOBAL VARS
   // daysOfWeek will determine the order of "Days" dropdown in "Preferences"
-  const daysOfWeek = ['Sunday', 'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+  const daysOfWeek = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday', 'Sunday']
 
 
   const navigate = useNavigate()

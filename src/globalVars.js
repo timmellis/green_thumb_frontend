@@ -3,11 +3,10 @@ export const GlobalVars = {
     [
       "Daily",
       "Twice per week",
-      "Once per week",
-      "Once every 2 weeks",
-      "Once per month",
-      "Once every 6 Weeks",
-      "Irregular"
+      "Weekly",
+      "Every 2 weeks",
+      "Monthly",
+      "Every 6 Weeks",
     ],
 
   "water_qty_vars": 
