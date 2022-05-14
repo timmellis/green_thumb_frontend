@@ -33,12 +33,22 @@ function TopNav(props) {
         <Navbar.Toggle aria-controls="basic-navbar-nav"  />
         <Navbar.Collapse id='responsive-navbar-nav'  >
           <Nav>
-            <Nav.Link href='/' onClick={navLinkBugFix}>Home</Nav.Link>
+            <Nav.Link href='/' onClick={navLinkBugFix}>
+              {userData.profile_img && 
+                <img className='nav-profile-img nav-profile-img-screen-sm' src={userData.profile_img} alt='profile img' />
+              }
+              Home
+            </Nav.Link>
             <Nav.Link href='/calendar' onClick={navLinkBugFix}>Calendar</Nav.Link>
             <Nav.Link href='/plants' onClick={navLinkBugFix}>Browse Plants</Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link href='/preferences' onClick={navLinkBugFix}>Preferences <FiSettings /></Nav.Link>
+            <Nav.Link href='/preferences' onClick={navLinkBugFix}>
+            {userData.profile_img && 
+                <img className='nav-profile-img nav-profile-img-screen-lg' src={userData.profile_img} alt='profile img' />
+              }
+              Preferences <FiSettings />
+            </Nav.Link>
             <Nav.Link href='/logout' onClick={navLinkBugFix}>Logout</Nav.Link>
           </Nav>
         </Navbar.Collapse>

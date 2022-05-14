@@ -35,9 +35,14 @@ function Home(props) {
     if (userData && userHouseplants) {
     return (
     <div className='container-lg'>
-      <h1>
-        Welcome, {userData.first_name ? userData.first_name : userData.username}!
-      </h1>
+      <div className='home-welcome-banner'>
+        {userData.profile_img && 
+          <img className='home-profile-img h1' src={userData.profile_img} alt='profile img' />
+        } 
+        <h1>
+          Welcome, {userData.first_name ? userData.first_name : userData.username}!
+        </h1>
+      </div>  
 
       <h3 className='section-title accordion-title'>Your Houseplants:</h3>
       {userHouseplants.map((p,i) => (

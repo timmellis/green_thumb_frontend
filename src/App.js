@@ -12,6 +12,7 @@ import {LoginContext} from './ContextFiles/LoginContext'
 import Home from './pages/Home'
 import Plants from './pages/Plants'
 import TopNav from './components/Nav'
+import Footer from './components/Footer'
 import Calendar from './components/Calendar'
 import UserForm from './components/UserForm'
 import LocationForm from './components/LocationForm'
@@ -38,7 +39,7 @@ function App() {
   useEffect(()=>{
     const user_id = localStorage.getItem('user_id')
     const username = localStorage.getItem('username')
-    console.log("APP.JS---FIRST LOAD LOGIN TEST", user_id, username, loginStatus)
+    // console.log("APP.JS---FIRST LOAD LOGIN TEST", user_id, username, loginStatus)
 
     // IF localStorage data exists AND passes LoginTest(), THEN refresh login status and load user data ( refreshLoginAndData() )
     if (user_id && username) {
@@ -52,28 +53,18 @@ function App() {
     await axiosInstance.get(`users/${username}`)
     .then(res => {
       if (res.status === 200) {
-        console.log("loginTest 200")
         setLoginStatus(true)
         return true
       } else {
-        console.log("loginTest =/= 200")
         setLoginStatus(false)
         return false
       }
     })
     .catch(error => {
-      console.log("loginTest error")
       setLoginStatus(false)
       console.error()
     })
   }
-
-  // useEffect(() => {
-  //   loginTest()
-  // }, [])
-
-
-
 
   const refreshLoginAndData = () => {
     const userIdLoggedIn = localStorage.getItem('user_id') 
@@ -107,10 +98,8 @@ function App() {
     if (loginStatus===true) {
       refreshUserData()
       refreshAllPlants()
-      console.log("refreshing")
     }
     if(user) refreshUserHouseplants()
-    // console.log("USERHOUSEPLANTS",userHouseplants)
   }, [user, loginStatus])
 
 
@@ -118,7 +107,7 @@ function App() {
     axiosInstance.get(`houseplants/`)
       .then((res) => {
         let myHouseplants = res.data.filter(a => parseInt(a.user_id)===parseInt(user))
-        console.log("HOUSEPLANTS",res.data, "MYPLANTS",myHouseplants, "user", user)
+        // console.log("HOUSEPLANTS",res.data, "MYPLANTS",myHouseplants, "user", user)
         if (myHouseplants.length) {
           setUserHouseplants(myHouseplants
           .sort((a,b)=> {return a.plant.name < b.plant.name ? -1 : (a.plant.name>b.plant.name ? 1 : 0)})
@@ -133,110 +122,147 @@ function App() {
   const refreshAllPlants = () => {
     axiosInstance.get("plants/")
       .then((res) => {
-        // console.log("ALL PLANTS",res.data)
         setAllPlants(res.data.sort((a,b)=> {return a.name < b.name ? -1 : (a.name>b.name ? 1 : 0)}))
       })
       .catch(console.error)
   }
 
 
-// console.log("APP.js LOGIN STATUS", loginStatus)
 
 
+if (loginStatus === false)
+  return (
+    <LoginContext.Provider value={{ loginStatus, setLoginStatus }}>
+      {console.log(loginStatus && userData)}
+      <div className="App">
+        <UserContext.Provider
+          value={{
+            user,
+            setUser,
+            userData,
+            setUserData,
+            refreshUserData,
+            allPlants,
+            refreshAllPlants,
+            userHouseplants,
+            refreshUserHouseplants,
+          }}
+        >
+          <header>
+            <TopNav />
+          </header>
 
-
-
-if (loginStatus===false) return (
-  <LoginContext.Provider value={{ loginStatus, setLoginStatus }}>
-    {console.log(loginStatus && userData)}
-    <div className="App">
-      <UserContext.Provider
-        value={{ user, setUser, userData, setUserData, refreshUserData, allPlants, refreshAllPlants, userHouseplants, refreshUserHouseplants, }}
-      >
-        <header>
-          <TopNav />
-        </header>
-
-        <div className="flex-full-col">
-          <Routes>
-            <Route path='/' element={<Login />} /> 
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/Logout" element={<Logout />} />
-          </Routes>
-          <img
-            src={require("./assets/logo.png")}
-            alt="logo-large"
-            className="splash-logo"
-          />
-        </div>
-      </UserContext.Provider>
-    </div>
-  </LoginContext.Provider>
-);
-
-else if (loginStatus && userData) return (
-
-<LoginContext.Provider value={{loginStatus, setLoginStatus}}>
-
-    <div className="App">
-
-    <UserContext.Provider value={{user, setUser, userData, setUserData, refreshUserData, allPlants, refreshAllPlants, userHouseplants, refreshUserHouseplants}}>
-
-      <header>
-        <TopNav />
-      </header>
-
-      <div className='App-body'>
-      <div className='flex-full-col-start container-lg' >
-
-        <Routes>
-          <Route path='/register' element={<Register />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/Logout' element={<Logout />} />
-
-          <Route path='/' element={<Home />} />
-          <Route path='/home' element={<Home />} />
-
-          <Route path='/preferences' element={<UserForm />} />
-          <Route path='/calendar' element={<Calendar />} />
-
-          <Route path='/new/houseplant' element={<HouseplantForm />} />
-          <Route path='/update/houseplant/:id' element={<HouseplantForm />} />
-          <Route path='/delete/houseplant/:id' element={<HouseplantForm action='delete' />} />
-
-          <Route path='/plants' element={<Plants />} />
-          <Route path='/new/plant' element={<PlantForm />} />
-          <Route path='/update/plant/:id' element={<PlantForm />} />
-          <Route path='/delete/plant/:id' element={<PlantForm action='delete' />} />
-
-          <Route path='/new/location' element={<LocationForm />} />
-          <Route path='/update/location/:id' element={<LocationForm />} />
-          <Route path='/delete/location/:id' element={<LocationForm action='delete' />} />
-        </Routes>
-        <img
-              src={require("./assets/logo_v2.png")}
+          <div className="flex-full-col">
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/Logout" element={<Logout />} />
+            </Routes>
+            <img
+              src={require("./assets/logo.png")}
               alt="logo-large"
               className="splash-logo"
             />
-      </div>
-      </div>
-    </UserContext.Provider>
+          </div>
 
-    </div>
-  </LoginContext.Provider>
-  )
-  // else if (loginStatus==='unset') return (
-  else return (
-    <div className="App">
+          <footer>
+            <Footer />
+          </footer>
+        </UserContext.Provider>
+      </div>
+    </LoginContext.Provider>
+  );
+else if (loginStatus && userData)
+  return (
+    <LoginContext.Provider value={{ loginStatus, setLoginStatus }}>
+      <div className="App">
+        <UserContext.Provider
+          value={{
+            user,
+            setUser,
+            userData,
+            setUserData,
+            refreshUserData,
+            allPlants,
+            refreshAllPlants,
+            userHouseplants,
+            refreshUserHouseplants,
+          }}
+        >
+          
+          <header>
+            <TopNav />
+          </header>
+
+          <div className="App-body">
+            <div className="flex-full-col-start container-lg">
+              <Routes>
+                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/Logout" element={<Logout />} />
+
+                <Route path="/" element={<Home />} />
+                <Route path="/home" element={<Home />} />
+
+                <Route path="/preferences" element={<UserForm />} />
+                <Route path="/calendar" element={<Calendar />} />
+
+                <Route path="/new/houseplant" element={<HouseplantForm />} />
+                <Route
+                  path="/update/houseplant/:id"
+                  element={<HouseplantForm />}
+                />
+                <Route
+                  path="/delete/houseplant/:id"
+                  element={<HouseplantForm action="delete" />}
+                />
+
+                <Route path="/plants" element={<Plants />} />
+                <Route path="/new/plant" element={<PlantForm />} />
+                <Route path="/update/plant/:id" element={<PlantForm />} />
+                <Route
+                  path="/delete/plant/:id"
+                  element={<PlantForm action="delete" />}
+                />
+
+                <Route path="/new/location" element={<LocationForm />} />
+                <Route path="/update/location/:id" element={<LocationForm />} />
+                <Route
+                  path="/delete/location/:id"
+                  element={<LocationForm action="delete" />}
+                />
+              </Routes>
+              <img
+                src={require("./assets/logo_v2.png")}
+                alt="logo-large"
+                className="splash-logo"
+              />
+            </div>
+          </div>
+
+          <footer>
+            <Footer />
+          </footer>
+
+        </UserContext.Provider>
+      </div>
+    </LoginContext.Provider>
+  );
+
+
   
-      <div className='flex-full-col'>
-        <div className='loading-page'>
+// else if (loginStatus==='unset') return (
+else
+  return (
+    <div className="App">
+      <div className="flex-full-col">
+        <div className="loading-page">
           <Spinner animation="border" variant="primary" /> Loading...
         </div>
-      </div>  
+      </div>
     </div>
-  )
+  );
   // else return (
   //   <div>
   //     error

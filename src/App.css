@@ -41,7 +41,7 @@ body {
   background-color: (250,250,250,.75);
 }
 .App-body {
-  height: calc(100vh - 65px);
+  min-height: calc(100vh - 114px);
   overflow-y: auto;
 }
 header {
@@ -77,9 +77,25 @@ button.navbar-toggler:focus {
   font-weight: bold;
   border-radius: 8px;
 }
+.nav-profile-img {
+  margin-right: 4px;
+  display:inline;
+  max-height: 1.5em;
+  border-radius: 50%;
+  border: solid thin var(--main-color-50);
+}
+
 @media (min-width: 992px) {  
   .navbar-expand-lg .navbar-collapse {
     justify-content: space-between;
+  }
+  .nav-profile-img-screen-sm {
+    display:none;
+  }
+}
+@media (max-width: 992px) {
+  .nav-profile-img-screen-lg {
+    display:none;
   }
 }
 .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.active:visited, .navbar-light .navbar-nav .show>.nav-link {
@@ -91,6 +107,9 @@ button.navbar-toggler:focus {
   background-color: rgba(255,255,255,.65);
   border-radius: 8px;
 }
+
+
+
 
 /* GENERIC ELEMENTS */
 a, a:visited {
@@ -132,7 +151,7 @@ a:hover, a.btn-link:hover {
 }
 
 .flex-full-col, .flex-full-col-start {
-  min-height: calc(100vh - 72px);
+  min-height: calc(100vh - 114px);
   display:flex;
   flex-direction: column;
   justify-content: center;
@@ -144,6 +163,26 @@ a:hover, a.btn-link:hover {
   padding-top:12px;
   justify-content: start;
   background-color: rgba(255,255,255,.75);
+}
+
+
+/* MAIN PAGE */
+.home-welcome-banner {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  
+}
+.home-welcome-banner h1 {
+  margin:0;
+}
+.home-profile-img {
+  max-height: 1em;
+  margin-right: 8px;
+  border-radius: 50%;
+  border: solid thin var(--main-color-50);
+  box-shadow: 1px 1px 1px 0px rgba(0,0,0,.5);
 }
 
 
@@ -178,9 +217,12 @@ a:hover, a.btn-link:hover {
   background-color: var(--main-color-50);
   box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
 }
-.accordion-header .accordion-button:not(.collapsed)::after {
-  background-color: white;
-}
+/* .accordion-header .accordion-button:not(.collapsed)::after {
+  
+  color: white; 
+  stroke: 2px white;
+ 
+} */
 .accordion-header .accordion-button.collapsed:focus {
   border-color: var(--main-color-50);
   box-shadow: 0 0 3px .1rem var(--main-color-50);
@@ -266,9 +308,19 @@ a:hover, a.btn-link:hover {
 
 
 /* CALENDAR */
+.fc {
+  height: calc(100vh - 144px);
+}
+@media (max-width: 992px) {
+  a.fc-event {
+    font-size: .65em;
+  }
+}
 a.fc-event {
   cursor: pointer;
 }
+
+
 div.fc-daygrid-day-top {
   background: rgba(255,255,255,.75);
   padding: 0px;
@@ -319,4 +371,14 @@ div.sidebar-list-container .list-group-item {
 }
 div.sidebar-list-container .list-group-item:hover {
   background-color: var(--main-color-25);
+}
+
+
+
+footer .app-footer {
+  margin-top: 10px;
+  height:32px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
