@@ -190,7 +190,7 @@ else if (loginStatus && userData)
             refreshUserHouseplants,
           }}
         >
-          
+
           <header>
             <TopNav />
           </header>
@@ -263,13 +263,6 @@ else
       </div>
     </div>
   );
-  // else return (
-  //   <div>
-  //     error
-  //   </div>
-  // )
- 
-  
 }
 
 export default App;

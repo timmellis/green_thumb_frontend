@@ -32,6 +32,12 @@ https://emojipedia.org/emojidex/
 
 
 ### Backend development
-JWT AUTH FOR DJANGO
+### Django, DjangoREST Framework
+https://www.django-rest-framework.org/
+
+### Django CORS Headers
+https://github.com/adamchainz/django-cors-headers
+
+### JWT AUTH FOR DJANGO
 https://hackernoon.com/110percent-complete-jwt-authentication-with-django-and-react-2020-iejq34ta
 https://github.com/tverg419/pyploto-backend

@@ -1,13 +1,27 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
+import {RiCopyrightLine, RiGithubFill, RiLinkedinBoxFill} from 'react-icons/ri'
+
 
 function Footer(props) {
   return (
-    <div className='app-footer'>
-      <div>Left content</div>
+    <div className='app-footer container-lg'>
+      <div className='footer-left'>
+        <img src={require('../assets/logo_v2.png')} height='25px' alt='logo' /> Green Thumb 
+      </div>
 
-      <div>Center content</div>
+      <div className='footer-center'>
+        Created & designed by Tim Ellis <RiCopyrightLine id='copyright-icon'/> 2022
+      </div>
 
-      <div>Right content</div>
+      <div className='footer-right'>
+        <a href='https://github.com/timmellis/green_thumb_frontend' target='_blank'>
+          <RiGithubFill className='social-icon social-icon-github' alt='github' />
+        </a>
+        <a href='https://www.linkedin.com/in/tim-m-ellis/' target='_blank'>
+          <RiLinkedinBoxFill className='social-icon social-icon-linkedin' alt='linkedin' />
+        </a>
+      </div>
 
     </div>
   );
