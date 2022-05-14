@@ -1,11 +1,11 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
 import {RiCopyrightLine, RiGithubFill, RiLinkedinBoxFill} from 'react-icons/ri'
-
+import {Row, Col} from 'react-bootstrap'
 
 function Footer(props) {
   return (
     <div className='app-footer container-lg'>
+    
       <div className='footer-left'>
         <img src={require('../assets/logo_v2.png')} height='25px' alt='logo' /> Green Thumb 
       </div>

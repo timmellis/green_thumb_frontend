@@ -93,6 +93,24 @@ function App() {
     }
   }
 
+  // CHECK IF IMAGE EXISTS
+function checkIfImageExists(url) {
+  const img = new Image();
+  img.src = url;
+  
+  if (img.complete) {
+    return(true);
+  } else {
+    img.onload = () => {
+      return(true);
+    };
+    
+    img.onerror = () => {
+      return(false);
+    };
+  }
+}
+
     
   useEffect(() => {
     if (loginStatus===true) {
@@ -173,6 +191,9 @@ if (loginStatus === false)
       </div>
     </LoginContext.Provider>
   );
+
+
+
 else if (loginStatus && userData)
   return (
     <LoginContext.Provider value={{ loginStatus, setLoginStatus }}>
@@ -188,6 +209,7 @@ else if (loginStatus && userData)
             refreshAllPlants,
             userHouseplants,
             refreshUserHouseplants,
+            checkIfImageExists
           }}
         >
 

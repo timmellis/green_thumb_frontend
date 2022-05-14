@@ -19,6 +19,7 @@ function Home(props) {
     user,
     userData, 
     userHouseplants, 
+    checkIfImageExists
     // refreshUserData, 
     // refreshUserHouseplants, 
     // allPlants, 
@@ -33,10 +34,12 @@ function Home(props) {
 
   // if (userData && userData.name && userData.plants && userData.locations && userHouseplants) {
     if (userData && userHouseplants) {
+      let profImgValid = userData.profileImg ? checkIfImageExists(user.profile_img) : false
+
     return (
     <div className='container-lg'>
       <div className='home-welcome-banner'>
-        {userData.profile_img && 
+        {profImgValid &&
           <img className='home-profile-img h1' src={userData.profile_img} alt='profile img' />
         } 
         <h1>

@@ -71,7 +71,7 @@ a:hover, a.btn-link:hover {
 }
 
 .flex-full-col, .flex-full-col-start {
-  min-height: calc(100vh - 114px);
+  min-height: calc(100vh - 104px);
   display:flex;
   flex-direction: column;
   justify-content: center;
@@ -100,9 +100,10 @@ body {
   text-align: center;
   box-sizing: border-box;
   background-color: (250,250,250,.75);
+  min-height:100vh;
 }
 .App-body {
-  min-height: calc(100vh - 114px);
+  min-height: calc(100vh - 104px);
   overflow-y: auto;
 }
 
@@ -203,7 +204,8 @@ button.navbar-toggler:focus {
 }
 .item-dropdown-header {
   background: var(--main-color);
-} .item-dropdown-header .dropdown-arrow {
+} 
+.item-dropdown-header .dropdown-arrow {
   position: absolute;
   right: 0;
   padding: 0 8px;
@@ -251,10 +253,13 @@ button.navbar-toggler:focus {
   }
   .section-container div.container-lg.accordion {
     width: 100%;
-    padding-right: var(--bs-gutter-x,.25rem) !important;
-    padding-left: var(--bs-gutter-x,.25rem) !important;
+    padding-right: var(--bs-gutter-x,0rem) !important;
+    padding-left: var(--bs-gutter-x,0rem) !important;
     margin-right: auto;
     margin-left: auto;
+  }
+  .accordion .accordion-item .accordion-header button.accordion-button {
+    padding: .5rem .5rem !important;
   }
 }
 
@@ -370,18 +375,22 @@ div.sidebar-list-container .list-group-item:hover {
 
 
 /* ***** FOOTER STYLING ***** */
-
+footer {
+  width:100%;
+  background-color: var(--main-color-25);
+  padding: 5px 10px;
+}
 footer .app-footer {
   font-weight: 300;
   font-size: .9em;
-  margin-top: 10px;
-  height:32px;
-  display: flex;
+  min-height:32px;
+  display: flex; 
   justify-content: space-between;
   align-items: center;
+  z-index: 10;
 }
 footer .app-footer img {
-  opacity: 75%;
+  /* opacity: 75%; */
   max-height: 1.5em;
 }
 footer .app-footer .footer-right svg {
@@ -391,4 +400,16 @@ footer .app-footer .footer-right svg {
 }
 footer .app-footer .footer-right svg:hover {
   color: var(--main-color);
+}
+@media (max-width: 992px) {
+  footer .app-footer {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+  }  
+  footer .app-footer .footer-right svg {
+    font-size: 2.2em;
+    color: var(--main-color);
+  }  
 }

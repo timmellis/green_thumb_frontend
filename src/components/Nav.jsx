@@ -12,7 +12,7 @@ function TopNav(props) {
 
   const navigate = useNavigate()
   const {loginStatus} = useContext(LoginContext)
-  const {userData, user} = useContext(UserContext)
+  const {userData, user, checkIfImageExists} = useContext(UserContext)
 
   const navLinkBugFix = (e) => {
     e.preventDefault(); 
@@ -20,44 +20,47 @@ function TopNav(props) {
   }
 
 
-  if (loginStatus && userData && user) return (
-    <div>
-  <Navbar collapseOnSelect expand='lg'>
-    <Container>
-      <Navbar.Brand href="/">
-        <img alt="logo" src={logo_png} width="32" height="32" className="d-inline-block align-top" />
-        <img alt="logo-text" src={require('../assets/logo_text_v2.png')} height="32" className="d-inline-block align-top" />
-        {/* Green Thumb */}
-      </Navbar.Brand>
+  if (loginStatus && userData && user) {
+    let profImgValid = userData.profileImg ? checkIfImageExists(user.profile_img) : false
+    return (
+      <div>
+        <Navbar collapseOnSelect expand='lg'>
+          <Container>
+            <Navbar.Brand href="/">
+              <img alt="logo" src={logo_png} width="32" height="32" className="d-inline-block align-top" />
+              <img alt="logo-text" src={require('../assets/logo_text_v2.png')} height="32" className="d-inline-block align-top" />
+              {/* Green Thumb */}
+            </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls="basic-navbar-nav"  />
-        <Navbar.Collapse id='responsive-navbar-nav'  >
-          <Nav>
-            <Nav.Link href='/' onClick={navLinkBugFix}>
-              {userData.profile_img && 
-                <img className='nav-profile-img nav-profile-img-screen-sm' src={userData.profile_img} alt='profile img' />
-              }
-              Home
-            </Nav.Link>
-            <Nav.Link href='/calendar' onClick={navLinkBugFix}>Calendar</Nav.Link>
-            <Nav.Link href='/plants' onClick={navLinkBugFix}>Browse Plants</Nav.Link>
-          </Nav>
-          <Nav>
-            <Nav.Link href='/preferences' onClick={navLinkBugFix}>
-            {userData.profile_img && 
-                <img className='nav-profile-img nav-profile-img-screen-lg' src={userData.profile_img} alt='profile img' />
-              }
-              Preferences <FiSettings />
-            </Nav.Link>
-            <Nav.Link href='/logout' onClick={navLinkBugFix}>Logout</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-    </Container>
-  </Navbar>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id='responsive-navbar-nav'  >
+              <Nav>
+                <Nav.Link href='/' onClick={navLinkBugFix}>
+                  {profImgValid &&
+                    <img className='nav-profile-img nav-profile-img-screen-sm' src={userData.profile_img} alt='profile img' />
+                  }
+                  Home
+                </Nav.Link>
+                <Nav.Link href='/calendar' onClick={navLinkBugFix}>Calendar</Nav.Link>
+                <Nav.Link href='/plants' onClick={navLinkBugFix}>Browse Plants</Nav.Link>
+              </Nav>
+              <Nav>
+                <Nav.Link href='/preferences' onClick={navLinkBugFix}>
+                  {profImgValid &&
+                    <img className='nav-profile-img nav-profile-img-screen-lg' src={userData.profile_img} alt='profile img' />
+                  }
+                  Preferences <FiSettings />
+                </Nav.Link>
+                <Nav.Link href='/logout' onClick={navLinkBugFix}>Logout</Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
         {/* <div>{`${userData.username} (${user}) - ${loginStatus}`}</div> */}
         {/* <button onClick={()=>navigate('/logout')}>Logout</button> */}
-    </div>
-  )
+      </div>
+    )
+  }
   else return (
     <Navbar collapseOnSelect expand='lg'>
       <Container>
