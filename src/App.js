@@ -215,7 +215,7 @@ else if (loginStatus && userData) return (
           <Route path='/delete/location/:id' element={<LocationForm action='delete' />} />
         </Routes>
         <img
-              src={require("./assets/logo.png")}
+              src={require("./assets/logo_v2.png")}
               alt="logo-large"
               className="splash-logo"
             />

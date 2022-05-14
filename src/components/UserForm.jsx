@@ -90,6 +90,14 @@ function UserForm(props) {
         </Col>
         </Row> */}
 
+        <Row>
+          <Col xs={12} lg={3} className='form-line-title'>
+            <Form.Label htmlFor='username'>Username: </Form.Label>
+          </Col>
+          <Col xs={12} lg={9} className='form-line-content'>
+            <Form.Control type='text' name='username' id='username' value={userPreferences.username} disabled />
+          </Col>
+        </Row>
         
         <Row>
           <Col xs={12} lg={3} className='form-line-title'>
@@ -109,14 +117,6 @@ function UserForm(props) {
           </Col>
         </Row>
 
-        <Row>
-          <Col xs={12} lg={3} className='form-line-title'>
-            <Form.Label htmlFor='username'>Username: </Form.Label>
-          </Col>
-          <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control type='text' name='username' id='username' value={userPreferences.username} onChange={(e)=>handleChange(e)} />
-          </Col>
-        </Row>
 
         <Row>
           <Col xs={12} lg={3} className='form-line-title'>
@@ -135,7 +135,9 @@ function UserForm(props) {
             <Form.Control type='text' name='profile_img' id='profile-img' value={userPreferences.profile_img} onChange={(e)=>handleChange(e)} />
           </Col>
         </Row>
-        
+        <Row>
+          <h5>Plant care preferences</h5>
+        </Row>
         <Row>
           <Col xs={12} lg={3} className='form-line-title'>
             <Form.Label htmlFor='pref_day1'>Weekly Plant Care Day: </Form.Label>

@@ -30,13 +30,15 @@ input.form-control:focus {
 /* MAIN APP STYLING */
 * {
   font-family: 'Josefin Sans', sans-serif;
-
+}
+body {
+  background-color: rgba(20,158,124,.1) !important;
 }
 .App {
   font-family: 'Josefin Sans', sans-serif;
   text-align: center;
   box-sizing: border-box;
-  background-color: (255,255,255,.75);
+  background-color: (250,250,250,.75);
 }
 .App-body {
   height: calc(100vh - 65px);
@@ -116,7 +118,6 @@ a:hover, a.btn-link:hover {
   border-radius: 8px;
   background-color: rgba(255,255,255,1);
   z-index:10;
-
 }
 
 .splash-logo {
@@ -147,7 +148,7 @@ a:hover, a.btn-link:hover {
 
 
 
-/* MAIN PAGE DROPDOWN COMPONENTS */
+/* MAIN PAGE ACORDION DROPDOWN COMPONENTS */
 .section-title {
   margin-top: 1em;
 }
@@ -158,7 +159,7 @@ a:hover, a.btn-link:hover {
   align-items: center;
 }
 .item-dropdown-container {
-  width:98%;
+  width:100%;
   max-width: var(--page-max-width);
   position: relative;
   margin-bottom: 4px;
@@ -209,6 +210,13 @@ a:hover, a.btn-link:hover {
   .item-dropdown-content.col-lg-9 {
     text-align: left;
   }
+.section-container div.container-lg.accordion {
+    width: 100%;
+    padding-right: var(--bs-gutter-x,.25rem) !important;
+    padding-left: var(--bs-gutter-x,.25rem) !important;
+    margin-right: auto;
+    margin-left: auto;
+}
 }
 
 
@@ -234,13 +242,6 @@ a:hover, a.btn-link:hover {
 }
 
 
-.form-container form {
-  /* width:95%;
-  display:grid;
-  grid-template-columns: 100px auto;
-  column-gap: 4px;
-  row-gap: 8px; */
-}
 
 .form-buttons {
   display:flex;

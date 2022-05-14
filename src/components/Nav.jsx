@@ -5,7 +5,7 @@ import { LoginContext } from '../ContextFiles/LoginContext'
 import { Navbar, Nav, Container } from 'react-bootstrap'
 import {FiSettings} from 'react-icons/fi'
 
-import logo_png from '../assets/logo.png'
+import logo_png from '../assets/logo_v2.png'
 
 
 function TopNav(props) {
@@ -26,7 +26,7 @@ function TopNav(props) {
     <Container>
       <Navbar.Brand href="/">
         <img alt="logo" src={logo_png} width="32" height="32" className="d-inline-block align-top" />
-        <img alt="logo-text" src={require('../assets/logo_text.png')} height="32" className="d-inline-block align-top" />
+        <img alt="logo-text" src={require('../assets/logo_text_v2.png')} height="32" className="d-inline-block align-top" />
         {/* Green Thumb */}
       </Navbar.Brand>
 
