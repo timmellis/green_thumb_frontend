@@ -25,14 +25,12 @@ function PlantForm(props) {
     humidity: ""
   })
 
-  // useEffect(() => {
-  //   if (userData) setNewPlant({...newPlant, user_id: userData.id})
-  // },[userData])
 
-  useEffect(() => {         // IF id, then populate form w existing data 
+  useEffect(() => {         
+    // IF id, then populate form w existing data 
     if (id && userData) {
       let thisPlant = userData.locations.filter( a => a.id === parseInt(id))[0]
-      console.log("THISPLANT",thisPlant)
+
       setNewPlant({...newPlant, 
         name: thisPlant.name,
         sci_name: thisPlant.sci_name,
@@ -46,17 +44,9 @@ function PlantForm(props) {
         fertilizer_type: thisPlant.fertilizer_type,
         fertilizer_freq: thisPlant.fertilizer_freq,
       })
-      // Object.keys(thisLoc).forEach((a) => {
-      //   console.log("THISKEY",a, "THISLOC[a]", thisLoc[a], "NEWLOC",newLoc)
-      //   if (a==='id' || a==='img_url' || a==='plants') console.log(null)
-      //   else setNewLoc({...newLoc, [a]: "this"})
-      // })
     }
   }, [userData])
 
-  useEffect(() => {
-    console.log("NEWPLANT = ",newPlant)
-  })
 
   const handleChange = (e) => {
     setNewPlant({...newPlant, [e.target.name]: e.target.value})
@@ -80,7 +70,6 @@ function PlantForm(props) {
         .then(()=>refreshUserData())
         .then(()=>navigate('/'))
         .catch(console.error)
-    console.log("RES=",res)
   }
 
 
@@ -94,7 +83,6 @@ function PlantForm(props) {
       <Form onSubmit={(e)=>handleSubmit(e)} className='d-grid form-plant'>
       <Form.Group className='d-grid gap-2'>
 
-      {/* YOU CAN DELETE THIS AFTER DEVELOPMENT */}
       <Row>
           <Col xs={12} lg={3} className='form-line-title'>
             <Form.Label htmlFor='name'>Common Name: </Form.Label>

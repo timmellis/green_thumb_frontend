@@ -10,6 +10,7 @@ function UserForm(props) {
 
   // GLOBAL VARS
   // daysOfWeek will determine the order of "Days" dropdown in "Preferences"
+  // NOTE: Needs to be in this order for FullCalendar to work
   const daysOfWeek = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday', 'Sunday']
 
 
@@ -17,7 +18,6 @@ function UserForm(props) {
 
   const {user, userData, refreshUserData} = useContext(UserContext)
   const [userPreferences, setUserPreferences] = useState({})
-  // const isDelete = props.action === 'delete' ? true : false
 
   // BOOTSTRAP MODAL SETTINGS 
   const [show, setShow] = useState(false);
@@ -53,20 +53,8 @@ function UserForm(props) {
       .then(res => {
         console.log("RES",res)
         refreshUserData()
-
       })
       .catch(error => console.error)
-    // if(!id) res = 
-    //   axiosInstance.post('locations/', userPreferences)
-    //     .then(()=>refreshUserData())
-    //     .then(()=>navigate(-1))
-    //     .catch(console.error)
-    // else if (id) res =
-    //   axiosInstance.put(`locations/${id}`, userPreferences)
-    //     .then(()=>refreshUserData())
-    //     .then(()=>navigate('/'))
-    //     .catch(console.error)
-    // console.log(res)
   }
 
 
@@ -80,15 +68,7 @@ function UserForm(props) {
 
       <Form onSubmit={(e)=>handleSubmit(e)} className='d-grid form-location'>
         <Form.Group className='d-grid gap-2'>
-          <h5> Title </h5>
-
-        {/* YOU CAN DELETE THIS AFTER DEVELOPMENT */}
-        
-        {/* <Row>
-        <Col xs={12} lg={12} className='form-line-content'>
-          <h5>{userData.first_name}'s Home</h5>
-        </Col>
-        </Row> */}
+          <h5> User Info </h5>
 
         <Row>
           <Col xs={12} lg={3} className='form-line-title'>
@@ -117,7 +97,6 @@ function UserForm(props) {
           </Col>
         </Row>
 
-
         <Row>
           <Col xs={12} lg={3} className='form-line-title'>
             <Form.Label htmlFor='email'>Email: </Form.Label>
@@ -135,6 +114,8 @@ function UserForm(props) {
             <Form.Control type='text' name='profile_img' id='profile-img' value={userPreferences.profile_img} onChange={(e)=>handleChange(e)} />
           </Col>
         </Row>
+
+
         <Row>
           <h5>Plant care preferences</h5>
         </Row>
@@ -183,30 +164,22 @@ function UserForm(props) {
         </Form.Group>
       </Form>
 
-      <Modal show={show} onHide={handleClose} size='sm' centered style={{fontSize:'.75em', opacity:'.85'}}>
+      <Modal size='sm' 
+        show={show} onHide={handleClose} centered 
+        style={{fontSize:'.75em', opacity:'.85'}}>          
         <Modal.Header closeButton style={{background:'var(--main-color-50)', padding:'8px'}}>
           <Modal.Title variant='primary'></Modal.Title>
         </Modal.Header>
         <Modal.Body style={{padding:'8px', textAlign:'center'}}>
           <RiCheckboxCircleFill /> Changes saved.
         </Modal.Body>
-        {/* <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer> */}
       </Modal>
-
-
-
-
 
     </div>
   );
-  } else {
+  } 
+  
+  else {
     <div class='loading-screen'>Loading...</div>
   }
 }

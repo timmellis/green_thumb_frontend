@@ -1,10 +1,27 @@
-import React, { useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
+import {useNavigate} from 'react-router-dom'
 import axiosInstance from '../Axios'
-import { Form, Button } from 'react-bootstrap'
-import {LoginContext} from '../ContextFiles/LoginContext'
+import { Form, Button, Alert } from 'react-bootstrap'
+import {RiAlertFill} from 'react-icons/ri'
+
 
 function Register(props) {
 
+    const navigate = useNavigate()
+
+    // const [allUsers, setAllUsers] = useState([])
+
+
+    // const getAllUsers = async () => {
+    //     const userList = await axiosInstance.get('/users')
+    //     console.log(userList)
+
+    // }
+    // useEffect(() => {
+    //     getAllUsers()
+    // },[])
+
+    const [errorResponse, setErrorResponse] = useState(false)
     const [form, setForm] = useState({
       email: '',
       first_name: '',
@@ -40,26 +57,33 @@ function Register(props) {
                 axiosInstance.defaults.headers['Authorization'] = `JWT ${res.data.access}`
                 localStorage.setItem('access_token', res.data.access)
                 localStorage.setItem('refresh_token', res.data.refresh)
+                navigate('/')
                 return res
             })
         })
-        .catch(error => console.error)
+        .catch(error => {
+            const errRes = error.request.response
+            if (errRes.includes('duplicate key value violates unique constraint') && errRes.includes('username')) {
+                setErrorResponse('username')
+            } else {
+                setErrorResponse(true)
+            }
+            console.error(error)
+        })
     }
 
-    // const submit=document.querySelector('#submit');
-    // submit.addEventListener('click',()=>{
-    //     const email = document.querySelector('#email');
-
-    //     if(email.validity.typeMismatch){
-    //         email.setCustomValidity('Please enter correct email');
-    //     } else {
-    //         email.setCustomValidity('');
-    //     }
-    // })
 
     return (
         <div className='form signup-form'>
             <h1>Register</h1>
+
+            {errorResponse==='username'  
+                ? <Alert variant='warning'><RiAlertFill /> That username is already taken.</Alert>
+                : errorResponse 
+                    ? <Alert variant='warning'><RiAlertFill /> Sorry, there was a problem registering your account. Please try again.</Alert> 
+                    : null
+            }
+
             <Form onSubmit={handleSubmit} className='d-grid'>
                 <div className='d-grid'> 
                 <Form.Group className='d-grid gap-2'>

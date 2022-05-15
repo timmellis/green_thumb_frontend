@@ -1,8 +1,7 @@
 import './App.css';
-import {Route, Routes, useNavigate} from 'react-router-dom'
+import {Route, Routes} from 'react-router-dom'
 import React, {useState, useEffect} from 'react'
 import {Spinner} from 'react-bootstrap'
-import * as Icon from 'react-bootstrap-icons';
 
 
 import axiosInstance from './Axios'
@@ -10,6 +9,7 @@ import UserContext from './ContextFiles/UserContext'
 import {LoginContext} from './ContextFiles/LoginContext'
 
 import Home from './pages/Home'
+import About from './pages/About'
 import Plants from './pages/Plants'
 import TopNav from './components/Nav'
 import Footer from './components/Footer'
@@ -21,12 +21,10 @@ import HouseplantForm from './components/HouseplantForm'
 import Login from './components/Login'
 import Register from './components/Register'
 import Logout from './components/Logout'
-// import Axios from 'axios';
 
 
 function App() {
   
-  const navigate = useNavigate()
 
   const [user, setUser] = useState(false)
   const [userData, setUserData] = useState(null)
@@ -39,9 +37,9 @@ function App() {
   useEffect(()=>{
     const user_id = localStorage.getItem('user_id')
     const username = localStorage.getItem('username')
-    // console.log("APP.JS---FIRST LOAD LOGIN TEST", user_id, username, loginStatus)
-
-    // IF localStorage data exists AND passes LoginTest(), THEN refresh login status and load user data ( refreshLoginAndData() )
+    
+    // IF localStorage data exists AND that data passes LoginTest(), 
+    // THEN refresh login status and load user data ( refreshLoginAndData() )
     if (user_id && username) {
       if(loginTest(username)) refreshLoginAndData()   
     } else setLoginStatus(false)
@@ -49,7 +47,6 @@ function App() {
 
 
   async function loginTest(username) {
-    // console.log("loginTest 1", username)
     await axiosInstance.get(`users/${username}`)
     .then(res => {
       if (res.status === 200) {
@@ -68,9 +65,7 @@ function App() {
 
   const refreshLoginAndData = () => {
     const userIdLoggedIn = localStorage.getItem('user_id') 
-    // console.log("LOGIN STATUS", loginStatus, "LOCALSTORAGE USER_ID",userIdLoggedIn)
     if (userIdLoggedIn) {
-      // console.log("LOGIN STATUS", loginStatus, JSON.stringify(localStorage))
       setUser(localStorage.getItem('user_id'))
       refreshUserData()
     } else {
@@ -80,10 +75,9 @@ function App() {
   
   const refreshUserData = () => {
     if (user && user!=='undefined') {
-      // console.log("USER",user)
       axiosInstance.get(`users/alldetails/${user}`)
         .then((res) => {
-          console.log("REFRESH USER RES",res.data)
+          // console.log("REFRESH USER RES",res.data)
           setUserData(res.data)
         })
         .then((res) => {
@@ -146,24 +140,20 @@ function checkIfImageExists(url) {
   }
 
 
+// ***** DISPLAY CONTENT: ***** //
 
+// *** IF LOGGED IN = FALSE: LIMIT ROUTES, ROOT ==> LOGIN PAGE *** //
 
 if (loginStatus === false)
   return (
     <LoginContext.Provider value={{ loginStatus, setLoginStatus }}>
-      {console.log(loginStatus && userData)}
       <div className="App">
         <UserContext.Provider
           value={{
             user,
             setUser,
             userData,
-            setUserData,
-            refreshUserData,
-            allPlants,
-            refreshAllPlants,
-            userHouseplants,
-            refreshUserHouseplants,
+            setUserData
           }}
         >
           <header>
@@ -193,6 +183,7 @@ if (loginStatus === false)
   );
 
 
+// *** IF LOGGED IN = TRUE && USERDATA LOADED: FULL ROUTES, ROOT ==> HOME PAGE *** //
 
 else if (loginStatus && userData)
   return (
@@ -226,6 +217,7 @@ else if (loginStatus && userData)
 
                 <Route path="/" element={<Home />} />
                 <Route path="/home" element={<Home />} />
+                <Route path="/about" element={<About />} />
 
                 <Route path="/preferences" element={<UserForm />} />
                 <Route path="/calendar" element={<Calendar />} />
@@ -274,7 +266,8 @@ else if (loginStatus && userData)
 
 
   
-// else if (loginStatus==='unset') return (
+// *** IF LOGGED IN =/= TRUE OR FALSE (i.e. "unset"): SHOW Loading *** //
+
 else
   return (
     <div className="App">

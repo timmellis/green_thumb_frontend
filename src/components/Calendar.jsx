@@ -4,15 +4,11 @@ import GlobalVars from '../globalVars'
 import {Modal, Button} from 'react-bootstrap'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
+import listPlugin from '@fullcalendar/list';
 import rrulePlugin from '@fullcalendar/rrule'
-// import {Calendar as CalendarCore} from '@fullcalendar/core'
-// import bootstrap5Plugin from '@fullcalendar/bootstrap5'
-// import 'bootstrap/dist/css/bootstrap.css'
-// // import 'bootstrap-icons/font/boostrap-icons.css'
 
 function Calendar(props) {
-  const {user, userData, userHouseplants, refreshUserData} = useContext(UserContext)
-  console.log("first load", userHouseplants)
+  const {user, userData, userHouseplants} = useContext(UserContext)
 
   const [formattedData, setFormattedData] = useState()
   const [modalDisplay, setModalDisplay] = useState({
@@ -25,12 +21,11 @@ function Calendar(props) {
   const handleShow = () => setShow(true);
 
   useEffect(()=> {
-    console.log("effect")
     if (userHouseplants) formatter()
   },[userHouseplants])
 
   const formatter = () => {
-    // if (userHouseplants) {
+
     setFormattedData(
 
       ///// WATERING SCHEDULE FORMATTING /////
@@ -73,54 +68,30 @@ function Calendar(props) {
           humidity: hp.plant.humidity,
           light: hp.plant.light_level,
           description: hp.plant.description
-
-
-
         }
+
         return oneEvent
       })
     )
-  // }
 }
 
-
-
-  console.log('FORMATTED',formattedData)
-
-  const thing = [{title: 'New title', startRecur: '2022-05-11', notes:'Chilin', rrule: {freq: 'weekly', interval: 2, byweekday: [5]}}, {title: 'Another title', startRecur: '2022-05-11', notes:'Chilin', rrule: {freq: 'weekly', interval: 2, byweekday: [3]}}]
-
-
-
-
-
+  // IF ALL DATA HAS LOADED: Display FullCalendar
   if (user && userHouseplants && formattedData) 
   return (
     <div className='container-lg'>
 
+
       <FullCalendar 
-        plugins={[dayGridPlugin, rrulePlugin]}
-        // headerToolbar={{
-        //   start: 'title', // will normally be on the left. if RTL, will be on the right
-        //   center: 'Title',
-        //   end: 'today prev,next' // will normally be on the right. if RTL, will be on the left
-        // }}
+        plugins={[dayGridPlugin, listPlugin, rrulePlugin]}
+        headerToolbar={{
+          start: 'title', // will normally be on the left. if RTL, will be on the right
+          center: '',
+          end: 'today prev,next dayGridMonth,list' // will normally be on the right. if RTL, will be on the left
+        }}
         events={
-          // [
           formattedData
-          // {
-          //   title: 'A Different thing',
-          //   startRecur: '2022-05-11',
-          //   allDay: true,
-          //   description: "Water the plants!",
-          //   anotherThing: "This one too",
-          //   rrule: {
-          //     freq: 'weekly',
-          //     interval: 1,
-          //     // byweekday: []
-          //   }
-          // },    
-        // ]
       }
+
         eventClick={(item)=>{
           console.log('Event ' + JSON.stringify(item.event))
           setModalDisplay({
@@ -136,13 +107,17 @@ function Calendar(props) {
             humidity: item.event.extendedProps.humidity,
             light: item.event.extendedProps.light,
             description: item.event.extendedProps.description,
-            
-            eventfocus: item.event.extendedProps.eventfocus,
+
+            // Highlight focus of this event, (e.g. "watering")
+            eventfocus: item.event.extendedProps.eventfocus, 
           })
           handleShow()
           console.log('modalDisplay' + JSON.stringify(modalDisplay))
         }}
       />
+
+
+      {/* DETAILS MODAL THAT WILL APPEAR ON CLICK OF CALENDAR EVENT */}
 
       <Modal show={show} onHide={handleClose} id='calendar-event-modal'>
         <Modal.Header closeButton>
@@ -151,6 +126,7 @@ function Calendar(props) {
             <div className='modal-subtitle' style={{fontSize:'.8em', fontStyle:'italic', fontWeight:'300', marginTop:'0'}}>{modalDisplay.sciname}</div>
           </Modal.Title>
         </Modal.Header>
+        
         <Modal.Body>
           <div className='event-modal-body-section' id='event-location'>
             Location: {modalDisplay.location}
@@ -176,9 +152,8 @@ function Calendar(props) {
           <div className='event-modal-body-section' id='event-descr'>
             Description: <span>{modalDisplay.description}</span>
           </div>
-          
-        
         </Modal.Body>
+
         <Modal.Footer>
           <Button variant="secondary" size='sm' onClick={handleClose}>
             Close
@@ -188,6 +163,7 @@ function Calendar(props) {
 
     </div>
   ) 
+  
   else return (
     <div>
       Loading...

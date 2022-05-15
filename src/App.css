@@ -413,3 +413,16 @@ footer .app-footer .footer-right svg:hover {
     color: var(--main-color);
   }  
 }
+
+.about-page {
+  text-align: left;
+}
+.about-page img.logo-float {
+  max-width: 400px;
+  float: right;
+}
+@media (max-width: 576px) {
+  .about-page img.logo-float {
+    display: none;
+  } 
+}

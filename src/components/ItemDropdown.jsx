@@ -12,6 +12,7 @@ function ItemDropdown(props) {
   return (
     <Accordion className='container-lg'>
       <Accordion.Item eventKey={props.index}>
+        
         {/* Header w/ title for dropdown */}
         <Accordion.Header>{props.item.name} </Accordion.Header>
 

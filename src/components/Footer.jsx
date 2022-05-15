@@ -1,6 +1,5 @@
 import React from 'react';
 import {RiCopyrightLine, RiGithubFill, RiLinkedinBoxFill} from 'react-icons/ri'
-import {Row, Col} from 'react-bootstrap'
 
 function Footer(props) {
   return (

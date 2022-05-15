@@ -7,7 +7,6 @@ function HouseplantDropdown(props) {
 
   const navigate = useNavigate()
 
-  const hpKeys = Object.keys(props.item)
   const thisKeys = Object.keys(props.item.plant)
 
   return (

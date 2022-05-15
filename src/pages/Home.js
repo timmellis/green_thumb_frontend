@@ -1,38 +1,26 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {useNavigate} from 'react-router-dom'
-import axiosInstance from '../Axios'
-// import API from '../API'
 import {UserContext} from '../ContextFiles/UserContext'
 import ItemDropdown from '../components/ItemDropdown'
 import HouseplantDropdown from '../components/HouseplantDropdown'
-// import { LoginContext } from '../ContextFiles/LoginContext';
 import {Button, Spinner} from 'react-bootstrap'
 import * as Icon from 'react-bootstrap-icons'
-import {RiPlantFill,RiPlantLine} from 'react-icons/ri'
+import {RiPlantLine} from 'react-icons/ri'
 import {GiFruitTree} from 'react-icons/gi'
 
 function Home(props) {
 
   const navigate = useNavigate()
 
+  // GET NEEDED DATA FROM UserContext 
   const {
     user,
     userData, 
     userHouseplants, 
     checkIfImageExists
-    // refreshUserData, 
-    // refreshUserHouseplants, 
-    // allPlants, 
-    // refreshAllPlants
   } = useContext(UserContext)
 
-  // useEffect(()=>{
 
-  // },[]) 
-
-
-
-  // if (userData && userData.name && userData.plants && userData.locations && userHouseplants) {
     if (userData && userHouseplants) {
       let profImgValid = userData.profileImg ? checkIfImageExists(user.profile_img) : false
 

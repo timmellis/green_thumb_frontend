@@ -1,11 +1,10 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {UserContext} from '../ContextFiles/UserContext'
-import {Routes, Route, useParams, useNavigate} from 'react-router-dom'
+import {useParams, useNavigate} from 'react-router-dom'
 import axiosInstance from '../Axios'
-// import API from '../API'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import * as Icon from 'react-bootstrap-icons'
-import {RiPlantFill,RiPlantLine} from 'react-icons/ri'
+import {RiPlantLine} from 'react-icons/ri'
 import {GiFruitTree} from 'react-icons/gi'
 
 
@@ -31,11 +30,11 @@ function HouseplantForm(props) {
     refreshAllPlants()
   }, [])
 
-  useEffect(() => {         // IF id, then populate form w existing data 
+  useEffect(() => {         
+    // IF id, then populate form w existing data 
     if (id && userData) {
-      console.log('id',id,'hps',userHouseplants)
       let thisHouseplant = userHouseplants.filter( a => a.id === parseInt(id))[0]
-      console.log("THISPLANT",thisHouseplant)
+
       setNewHouseplant({...newHouseplant, 
         user_id: thisHouseplant.user_id,
         plant_id: thisHouseplant.plant_id,
@@ -43,11 +42,6 @@ function HouseplantForm(props) {
         img_url: thisHouseplant.img_url,
         notes: thisHouseplant.notes,
       })
-      // Object.keys(thisLoc).forEach((a) => {
-      //   console.log("THISKEY",a, "THISLOC[a]", thisLoc[a], "NEWLOC",newLoc)
-      //   if (a==='id' || a==='img_url' || a==='plants') console.log(null)
-      //   else setNewLoc({...newLoc, [a]: "this"})
-      // })
     }
   }, [userHouseplants])
 

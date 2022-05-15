@@ -1,24 +1,18 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {UserContext} from '../ContextFiles/UserContext'
-import {Routes, Route, useParams, useSearchParams} from 'react-router-dom'
-import Axios from 'axios'
-import API from '../API'
-import ItemDropdown from '../components/ItemDropdown'
 import {Container, Row, Col, ListGroup, Card} from 'react-bootstrap'
-import {RiPlantFill,RiPlantLine} from 'react-icons/ri'
+import {RiPlantLine} from 'react-icons/ri'
 
 function Plants(props) {
 
   const {userData, allPlants} = useContext(UserContext)
   const [currentPlant, setCurrentPlant] = useState()
 
-  // console.log(allPlants)
 
   useEffect(() => {
     console.log('userData', userData, 'allPlants', allPlants)
     if (allPlants && allPlants.length) setCurrentPlant(allPlants[0])
   }, [])
-
 
 
   const listClick = (id) => {

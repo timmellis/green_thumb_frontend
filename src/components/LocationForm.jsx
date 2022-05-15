@@ -26,10 +26,10 @@ function LocationForm(props) {
     if (userData) setNewLoc({...newLoc, user_id: userData.id})
   },[userData])
 
-  useEffect(() => {         // IF id, then populate form w existing data 
+  useEffect(() => {         
+    // IF id, then populate form w existing data 
     if (id && userData) {
       let thisLoc = userData.locations.filter( a => a.id === parseInt(id))[0]
-      console.log("THISLOC",thisLoc)
       setNewLoc({...newLoc, 
         user_id: thisLoc.user_id,
         name: thisLoc.name, 
@@ -40,17 +40,8 @@ function LocationForm(props) {
         humidity: thisLoc.humidity,
         notes: thisLoc.notes
       })
-      // Object.keys(thisLoc).forEach((a) => {
-      //   console.log("THISKEY",a, "THISLOC[a]", thisLoc[a], "NEWLOC",newLoc)
-      //   if (a==='id' || a==='img_url' || a==='plants') console.log(null)
-      //   else setNewLoc({...newLoc, [a]: "this"})
-      // })
     }
   }, [userData])
-
-  useEffect(() => {
-    console.log("NEWLOC = ",newLoc)
-  })
 
   const handleChange = (e) => {
     setNewLoc({...newLoc, [e.target.name]: e.target.value})
@@ -75,7 +66,6 @@ function LocationForm(props) {
         .then(()=>refreshUserData())
         .then(()=>navigate('/'))
         .catch(console.error)
-    console.log(res)
   }
 
 
@@ -88,16 +78,13 @@ function LocationForm(props) {
 
       <Form onSubmit={(e)=>handleSubmit(e)} className='d-grid form-location'>
         <Form.Group className='d-grid gap-2'>
-
-        {/* YOU CAN DELETE THIS AFTER DEVELOPMENT */}
-        
+      
         <Row>
         <Col xs={12} lg={12} className='form-line-content'>
           <h5>{userData.first_name}'s Home</h5>
         </Col>
         </Row>
 
-        
         <Row>
           <Col xs={12} lg={3} className='form-line-title'>
             <Form.Label htmlFor='name'>Name: </Form.Label>
