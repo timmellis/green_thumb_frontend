@@ -120,8 +120,8 @@ function LocationForm(props) {
           <Col xs={12} lg={9} className='form-line-content'>
             <Form.Select name='light_level' id='loc-light-level' value={newLoc.light_level} onChange={(e)=>handleChange(e)} disabled={isDelete}>
               <option value='' disabled selected hidden>---</option>
-              {GlobalVars.light_level_vars.map(line => (
-                <option value={line}>{line}</option>
+              {GlobalVars.light_level_vars.map((line,i) => (
+                <option value={line} key={i}>{line}</option>
               ))}
             </Form.Select>
           </Col>
@@ -134,8 +134,8 @@ function LocationForm(props) {
           <Col xs={12} lg={9} className='form-line-content'>
             <Form.Select name='temp' id='loc-temp' value={newLoc.temp} onChange={(e)=>handleChange(e)} disabled={isDelete}>
               <option value='' disabled selected hidden>---</option>
-              {GlobalVars.temp_vars.map(line => (
-                <option value={line}>{line}</option>
+              {GlobalVars.temp_vars.map((line,i) => (
+                <option value={line} key={i}>{line}</option>
               ))}
             </Form.Select>
           </Col>
@@ -148,8 +148,8 @@ function LocationForm(props) {
           <Col xs={12} lg={9} className='form-line-content'>
             <Form.Select name='humidity' id='loc-humidity' value={newLoc.humidity} onChange={(e)=>handleChange(e)} disabled={isDelete}>
               <option value='' disabled selected hidden>---</option>
-              {GlobalVars.humidity_vars.map(line => (
-                <option value={line}>{line}</option>
+              {GlobalVars.humidity_vars.map((line,i) => (
+                <option value={line} key={i}>{line}</option>
               ))}
             </Form.Select>
           </Col>

@@ -111,8 +111,16 @@ function HouseplantForm(props) {
                 </Button>
               </div>
             }
+
+            {
+              <div>
+                Want a suggestion on where to put this plant?
+              </div>
+            }
           </Col>
         </Row>
+
+
 
         <Row>
           <Col xs={12} lg={3} className='form-line-title'>
@@ -125,9 +133,12 @@ function HouseplantForm(props) {
                 <option value={loc.id}>{loc.name}</option>
                 ))}
             </Form.Select>
+
+            
+
             {!isDelete && 
               <div>
-                Can't find your location?
+                Putting this plant somewhere new?
                 <Button onClick={()=>navigate('/new/location/')} disabled={isDelete} >
                   <Icon.GeoFill /> Add a new location to your home
                 </Button>

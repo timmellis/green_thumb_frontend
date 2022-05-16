@@ -1,11 +1,68 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {UserContext} from '../ContextFiles/UserContext'
 import {useParams, useNavigate} from 'react-router-dom'
+import axios from 'axios'
 import axiosInstance from '../Axios'
 import GlobalVars from '../globalVars'
-import {Form, Button, Row, Col} from 'react-bootstrap'
+import {Form, Button, Row, Col, Modal} from 'react-bootstrap'
 
 function PlantForm(props) {
+
+
+
+
+  const gbifSpeciesApi = axios.create({
+    baseURL: 'https://api.gbif.org/v1/',
+    timeout: 5000   
+  })
+  
+  const gbifSearch = async (name) => {
+    const formatname = encodeURIComponent(name.trim())
+    await gbifSpeciesApi.get(`/species/search?q=${formatname}`
+    )
+    .then(res => {
+      let filter = res.data.results.filter(d => d.kingdom==="Plantae")
+      console.log(filter)
+    })
+    .catch(error => console.error(error, error.request.responseText))
+  }
+  console.log("GBIF TEST",gbifSearch("spider plant"))
+
+  // const natureServeApi = axios.create({
+  //   baseURL: 'https://explorer.natureserve.org',
+  //   timeout: 5000,
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "accept": "application/json"
+  //   }    
+  // })
+  
+  // const test = async () => {
+  //   await natureServeApi.post('/api/data/speciesSearch', 
+  //     {
+  //       "criteriaType": "species",
+  //       "speciesTaxonomyCriteria": [{
+  //         "paramType" : "scientificTaxonomy",
+  //         "level" : "KINGDOM",
+  //         "scientificTaxonomy" : "Plantae",
+  //         // "kingdom" : "Plantae"
+  //       }],
+  //       "textCriteria": [{
+  //         "paramType" : "quickSearch",
+  //         "searchToken" : "dracaena trifasciata"
+  //       }]
+  //     }
+  //   )
+  //   .then(res => {
+  //     console.log(res)
+  //   })
+  //   .catch(error => console.error(error, error.request.responseText))
+  // }
+  
+  // console.log("TEST",test())
+
+
+
 
   const navigate = useNavigate()
   const {userData, refreshUserData} = useContext(UserContext)
@@ -127,8 +184,8 @@ function PlantForm(props) {
           <Col xs={12} lg={9} className='form-line-content'>
             <Form.Select name='water_freq' id='plant-water-freq' value={newPlant.water_freq} onChange={(e)=>handleChange(e)} disabled={isDelete}>
               <option value='' disabled selected hidden>---</option>
-              {GlobalVars.water_freq_vars.map(line => (
-                <option value={line}>{line}</option>
+              {GlobalVars.water_freq_vars.map((line,i) => (
+                <option value={line} key={i}>{line}</option>
               ))}
             </Form.Select>
           </Col>
@@ -141,8 +198,8 @@ function PlantForm(props) {
           <Col xs={12} lg={9} className='form-line-content'>
             <Form.Select name='water_qty' id='plant-water-qty' value={newPlant.water_qty} onChange={(e)=>handleChange(e)} disabled={isDelete}>
               <option value='' disabled selected hidden>---</option>
-              {GlobalVars.water_qty_vars.map(line => (
-                <option value={line}>{line}</option>
+              {GlobalVars.water_qty_vars.map((line,i) => (
+                <option value={line} key={i}>{line}</option>
               ))}
             </Form.Select>
 
@@ -156,8 +213,8 @@ function PlantForm(props) {
           <Col xs={12} lg={9} className='form-line-content'>
             <Form.Select name='light_level' id='plant-light-level' value={newPlant.light_level} onChange={(e)=>handleChange(e)} disabled={isDelete}>
               <option value='' disabled selected hidden>---</option>
-              {GlobalVars.light_level_vars.map(line => (
-                <option value={line}>{line}</option>
+              {GlobalVars.light_level_vars.map((line,i) => (
+                <option value={line} key={i}>{line}</option>
               ))}
             </Form.Select>
 
@@ -171,8 +228,8 @@ function PlantForm(props) {
           <Col xs={12} lg={9} className='form-line-content'>
             <Form.Select name='temp' id='plant-temp' value={newPlant.temp} onChange={(e)=>handleChange(e)} disabled={isDelete}>
               <option value='' disabled selected hidden>---</option>
-              {GlobalVars.temp_vars.map(line => (
-                <option value={line}>{line}</option>
+              {GlobalVars.temp_vars.map((line,i) => (
+                <option value={line} key={i}>{line}</option>
               ))}
             </Form.Select>
 
@@ -186,8 +243,8 @@ function PlantForm(props) {
           <Col xs={12} lg={9} className='form-line-content'>
             <Form.Select name='humidity' id='plant-humidity' value={newPlant.humidity} onChange={(e)=>handleChange(e)} disabled={isDelete}>
               <option value='' disabled selected hidden>---</option>
-              {GlobalVars.humidity_vars.map(line => (
-                <option value={line}>{line}</option>
+              {GlobalVars.humidity_vars.map((line,i) => (
+                <option value={line} key={i}>{line}</option>
               ))}
             </Form.Select>
 
@@ -200,8 +257,8 @@ function PlantForm(props) {
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
             <Form.Select name='fertilizer_type' id='plant-fertilizer-type' value={newPlant.fertilizer_type} onChange={(e)=>handleChange(e)} disabled={isDelete}>
-              {GlobalVars.fertilizer_type_vars.map(line => (
-                <option value={line}>{line}</option>
+              {GlobalVars.fertilizer_type_vars.map((line,i) => (
+                <option value={line} key={i}>{line}</option>
               ))}
             </Form.Select>
 
