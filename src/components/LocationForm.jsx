@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import {UserContext} from '../ContextFiles/UserContext'
 import {useParams, useNavigate} from 'react-router-dom'
 import axiosInstance from '../Axios'
+import GlobalVars from '../globalVars'
 import {Form, Button, Col, Row} from 'react-bootstrap'
 
 function LocationForm(props) {
@@ -16,9 +17,9 @@ function LocationForm(props) {
     name: "",
     description: "",
     img_url: "",
-    light_level: "",
-    temp: "",
-    humidity: "",
+    light_level: GlobalVars.light_level_default,
+    temp: GlobalVars.temp_default,
+    humidity: GlobalVars.humidity_default,
     notes: ""
   })
 
@@ -90,7 +91,7 @@ function LocationForm(props) {
             <Form.Label htmlFor='name'>Name: </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control type='text' name='name' id='loc-name' value={newLoc.name} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+            <Form.Control type='text' name='name' id='loc-name' value={newLoc.name} onChange={(e)=>handleChange(e)} disabled={isDelete} required />
           </Col>
         </Row>
 
@@ -117,7 +118,12 @@ function LocationForm(props) {
             <Form.Label htmlFor='light_level'>Light Level: </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control type='text' name='light_level' id='loc-light-level' value={newLoc.light_level} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+            <Form.Select name='light_level' id='loc-light-level' value={newLoc.light_level} onChange={(e)=>handleChange(e)} disabled={isDelete}>
+              <option value='' disabled selected hidden>---</option>
+              {GlobalVars.light_level_vars.map(line => (
+                <option value={line}>{line}</option>
+              ))}
+            </Form.Select>
           </Col>
         </Row>
 
@@ -126,7 +132,12 @@ function LocationForm(props) {
             <Form.Label htmlFor='temp'>Avg. Temp.: </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control type='text' name='temp' id='loc-temp' value={newLoc.temp} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+            <Form.Select name='temp' id='loc-temp' value={newLoc.temp} onChange={(e)=>handleChange(e)} disabled={isDelete}>
+              <option value='' disabled selected hidden>---</option>
+              {GlobalVars.temp_vars.map(line => (
+                <option value={line}>{line}</option>
+              ))}
+            </Form.Select>
           </Col>
         </Row>
 
@@ -135,7 +146,12 @@ function LocationForm(props) {
             <Form.Label htmlFor='humidity'>Avg. Humidity: </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control type='text' name='humidity' id='loc-humidity' value={newLoc.humidity} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+            <Form.Select name='humidity' id='loc-humidity' value={newLoc.humidity} onChange={(e)=>handleChange(e)} disabled={isDelete}>
+              <option value='' disabled selected hidden>---</option>
+              {GlobalVars.humidity_vars.map(line => (
+                <option value={line}>{line}</option>
+              ))}
+            </Form.Select>
           </Col>
         </Row>
 

@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import {UserContext} from '../ContextFiles/UserContext'
 import {useParams, useNavigate} from 'react-router-dom'
 import axiosInstance from '../Axios'
+import GlobalVars from '../globalVars'
 import {Form, Button, Row, Col} from 'react-bootstrap'
 
 function PlantForm(props) {
@@ -15,14 +16,14 @@ function PlantForm(props) {
     name: "",
     sci_name: "",
     description: "",
-    water_freq: "",
-    water_qty: "",
-    fertilizer_type: "",
-    fertilizer_freq: "",
+    water_freq: GlobalVars.water_freq_default,
+    water_qty: GlobalVars.water_qty_default,
+    fertilizer_type: GlobalVars.fertilizer_type_default,
+    fertilizer_freq: GlobalVars.fertilizer_freq_default,
     img_url: "",
-    light_level: "",
-    temp: "",
-    humidity: ""
+    light_level: GlobalVars.light_level_default,
+    temp: GlobalVars.temp_default,
+    humidity: GlobalVars.humidity_default
   })
 
 
@@ -88,7 +89,7 @@ function PlantForm(props) {
             <Form.Label htmlFor='name'>Common Name: </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control type='text' name='name' id='plant-name' value={newPlant.name} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+            <Form.Control type='text' name='name' id='plant-name' value={newPlant.name} onChange={(e)=>handleChange(e)} disabled={isDelete} required />
           </Col>
         </Row>
 
@@ -124,7 +125,12 @@ function PlantForm(props) {
             <Form.Label htmlFor='water_freq'>Watering (Frequency): </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control type='text' name='water_freq' id='plant-water-freq' value={newPlant.water_freq} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+            <Form.Select name='water_freq' id='plant-water-freq' value={newPlant.water_freq} onChange={(e)=>handleChange(e)} disabled={isDelete}>
+              <option value='' disabled selected hidden>---</option>
+              {GlobalVars.water_freq_vars.map(line => (
+                <option value={line}>{line}</option>
+              ))}
+            </Form.Select>
           </Col>
         </Row>
 
@@ -133,7 +139,13 @@ function PlantForm(props) {
             <Form.Label htmlFor='water_qty'>Watering (Amount): </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control type='text' name='water_qty' id='plant-water-qty' value={newPlant.water_qty} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+            <Form.Select name='water_qty' id='plant-water-qty' value={newPlant.water_qty} onChange={(e)=>handleChange(e)} disabled={isDelete}>
+              <option value='' disabled selected hidden>---</option>
+              {GlobalVars.water_qty_vars.map(line => (
+                <option value={line}>{line}</option>
+              ))}
+            </Form.Select>
+
           </Col>
         </Row>
 
@@ -142,7 +154,13 @@ function PlantForm(props) {
             <Form.Label htmlFor='light_level'>Ideal Light Level: </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control type='text' name='light_level' id='plant-light-level' value={newPlant.light_level} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+            <Form.Select name='light_level' id='plant-light-level' value={newPlant.light_level} onChange={(e)=>handleChange(e)} disabled={isDelete}>
+              <option value='' disabled selected hidden>---</option>
+              {GlobalVars.light_level_vars.map(line => (
+                <option value={line}>{line}</option>
+              ))}
+            </Form.Select>
+
           </Col>
         </Row>
 
@@ -151,7 +169,13 @@ function PlantForm(props) {
             <Form.Label htmlFor='temp'>Ideal Temp.: </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control type='text' name='temp' id='plant-temp' value={newPlant.temp} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+            <Form.Select name='temp' id='plant-temp' value={newPlant.temp} onChange={(e)=>handleChange(e)} disabled={isDelete}>
+              <option value='' disabled selected hidden>---</option>
+              {GlobalVars.temp_vars.map(line => (
+                <option value={line}>{line}</option>
+              ))}
+            </Form.Select>
+
           </Col>
         </Row>
 
@@ -160,7 +184,13 @@ function PlantForm(props) {
             <Form.Label htmlFor='humidity'>Ideal Humidity: </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control type='text' name='humidity' id='plant-humidity' value={newPlant.humidity} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+            <Form.Select name='humidity' id='plant-humidity' value={newPlant.humidity} onChange={(e)=>handleChange(e)} disabled={isDelete}>
+              <option value='' disabled selected hidden>---</option>
+              {GlobalVars.humidity_vars.map(line => (
+                <option value={line}>{line}</option>
+              ))}
+            </Form.Select>
+
           </Col>
         </Row>
 
@@ -169,7 +199,12 @@ function PlantForm(props) {
             <Form.Label htmlFor='fertilizer_type'>Fertilizer (Type): </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control type='text' name='fertilizer_type' id='plant-fertilizer-type' value={newPlant.fertilizer_type} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+            <Form.Select name='fertilizer_type' id='plant-fertilizer-type' value={newPlant.fertilizer_type} onChange={(e)=>handleChange(e)} disabled={isDelete}>
+              {GlobalVars.fertilizer_type_vars.map(line => (
+                <option value={line}>{line}</option>
+              ))}
+            </Form.Select>
+
           </Col>
         </Row>
 

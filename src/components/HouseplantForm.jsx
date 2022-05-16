@@ -11,7 +11,7 @@ import {GiFruitTree} from 'react-icons/gi'
 function HouseplantForm(props) {
 
   const navigate = useNavigate()
-  const {user, userData, refreshUserData, allPlants, refreshAllPlants, userHouseplants, refreshUserHouseplants} = useContext(UserContext)
+  const {userData, refreshUserData, allPlants, refreshAllPlants, userHouseplants, refreshUserHouseplants} = useContext(UserContext)
   const {id} = useParams()
   const isDelete = props.action === 'delete' ? true : false
 
@@ -26,6 +26,7 @@ function HouseplantForm(props) {
   useEffect(() => {
     if (userData) setNewHouseplant({...newHouseplant, user_id: userData.id})
   },[userData])
+  
   useEffect(() => {
     refreshAllPlants()
   }, [])
