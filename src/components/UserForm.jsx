@@ -11,7 +11,7 @@ function UserForm(props) {
   // GLOBAL VARS
   // daysOfWeek will determine the order of "Days" dropdown in "Preferences"
   // NOTE: Needs to be in this order for FullCalendar to work
-  const daysOfWeek = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday', 'Sunday']
+  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
 
   const navigate = useNavigate()

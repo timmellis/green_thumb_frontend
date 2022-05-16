@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom'
 import axiosInstance from '../Axios'
 import { Form, Button, Alert } from 'react-bootstrap'
@@ -8,18 +8,6 @@ import {RiAlertFill} from 'react-icons/ri'
 function Register(props) {
 
     const navigate = useNavigate()
-
-    // const [allUsers, setAllUsers] = useState([])
-
-
-    // const getAllUsers = async () => {
-    //     const userList = await axiosInstance.get('/users')
-    //     console.log(userList)
-
-    // }
-    // useEffect(() => {
-    //     getAllUsers()
-    // },[])
 
     const [errorResponse, setErrorResponse] = useState(false)
     const [form, setForm] = useState({

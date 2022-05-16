@@ -66,7 +66,6 @@ function Home(props) {
         <div className='flex-full-col'>
           <div className='loading-page'>
             <Spinner animation="border" variant="primary" /> Loading...
-            {console.log("user",user,'userData',userData,'userHouseplants',userHouseplants)}
           </div>
         </div>  
       )

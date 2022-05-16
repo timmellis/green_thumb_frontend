@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {UserContext} from '../ContextFiles/UserContext'
-import {Routes, Route, useParams, useSearchParams, useNavigate} from 'react-router-dom'
+import {useParams, useNavigate} from 'react-router-dom'
 import axiosInstance from '../Axios'
 import {Form, Button, Col, Row} from 'react-bootstrap'
 

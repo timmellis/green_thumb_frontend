@@ -45,10 +45,6 @@ function HouseplantForm(props) {
     }
   }, [userHouseplants])
 
-  useEffect(() => {
-    console.log("NEW HOUSEPLANT = ",newHouseplant)
-    console.log("ALL PLANTS", allPlants)
-  })
 
   const handleChange = (e) => {
     setNewHouseplant({...newHouseplant, [e.target.name]: e.target.value})

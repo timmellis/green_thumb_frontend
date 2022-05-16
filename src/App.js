@@ -3,7 +3,6 @@ import {Route, Routes} from 'react-router-dom'
 import React, {useState, useEffect} from 'react'
 import {Spinner} from 'react-bootstrap'
 
-
 import axiosInstance from './Axios'
 import UserContext from './ContextFiles/UserContext'
 import {LoginContext} from './ContextFiles/LoginContext'
@@ -32,7 +31,6 @@ function App() {
   const [allPlants, setAllPlants] = useState([])  
   
   const [loginStatus, setLoginStatus] = useState('unset')
-
 
   useEffect(()=>{
     const user_id = localStorage.getItem('user_id')
@@ -77,7 +75,6 @@ function App() {
     if (user && user!=='undefined') {
       axiosInstance.get(`users/alldetails/${user}`)
         .then((res) => {
-          // console.log("REFRESH USER RES",res.data)
           setUserData(res.data)
         })
         .then((res) => {
@@ -119,7 +116,6 @@ function checkIfImageExists(url) {
     axiosInstance.get(`houseplants/`)
       .then((res) => {
         let myHouseplants = res.data.filter(a => parseInt(a.user_id)===parseInt(user))
-        // console.log("HOUSEPLANTS",res.data, "MYPLANTS",myHouseplants, "user", user)
         if (myHouseplants.length) {
           setUserHouseplants(myHouseplants
           .sort((a,b)=> {return a.plant.name < b.plant.name ? -1 : (a.plant.name>b.plant.name ? 1 : 0)})

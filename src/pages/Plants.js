@@ -10,7 +10,6 @@ function Plants(props) {
 
 
   useEffect(() => {
-    console.log('userData', userData, 'allPlants', allPlants)
     if (allPlants && allPlants.length) setCurrentPlant(allPlants[0])
   }, [])
 
@@ -49,10 +48,7 @@ function Plants(props) {
               <ListGroup.Item>Soil/Fertilizer: {currentPlant.fertilizer_type} | {currentPlant.fertilizer_freq}</ListGroup.Item>
               <ListGroup.Item>Ideal Light: {currentPlant.light_level} | Ideal Temp: {currentPlant.temp}</ListGroup.Item>
             </ListGroup>
-            {/* <Card.Body>
-              <Card.Link href="#">Card Link</Card.Link>
-              <Card.Link href="#">Another Link</Card.Link>
-            </Card.Body> */}
+
   </Card>
         </Col>
       </Row>
