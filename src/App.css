@@ -408,15 +408,25 @@ footer .app-footer .footer-right svg:hover {
   }  
 }
 
+
+/* ABOUT PAGE */
+
 .about-page {
   text-align: left;
 }
-.about-page img.logo-float {
-  max-width: 400px;
+.about-page .logo-float {
+  width: 350px;
+  height: 350px;
+  border: solid thin var(--main-color);
+  border-radius: 50%;
+  position: relative;
   float: right;
+  background-position: center;
+  background-size:cover;
 }
+
 @media (max-width: 576px) {
-  .about-page img.logo-float {
+  .about-page .logo-float {
     display: none;
   } 
 }

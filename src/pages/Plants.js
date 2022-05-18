@@ -35,10 +35,10 @@ function Plants(props) {
         </Col>
         <Col xs={12} md={8} lg={9} className='plant-details-column'>
           <Card>
-            <Card.Img variant="top" src="" />
-            <Card.Body>
               <Card.Title>{currentPlant.name}</Card.Title>
-              <Card.Subtitle style={{fontStyle:'italic'}}>{currentPlant.sci_name}</Card.Subtitle>
+              <Card.Subtitle style={{fontStyle:'italic', fontWeight:'300'}}>{currentPlant.sci_name}</Card.Subtitle>
+            <Card.Img variant="top" src={currentPlant.img_url} />
+            <Card.Body>
               <Card.Text align='left' style={{fontWeight:'300'}}>
                 {currentPlant.description}
               </Card.Text>

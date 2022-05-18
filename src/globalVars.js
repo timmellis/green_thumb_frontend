@@ -39,6 +39,7 @@ export const GlobalVars = {
       "Indirect low afternoon",
 
       "Lamp / Grow Light",
+      "Any",
     ],
     "light_level_default": "",
 

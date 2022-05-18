@@ -4,7 +4,7 @@ import {useParams, useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import axiosInstance from '../Axios'
 import GlobalVars from '../globalVars'
-import {Form, Button, Row, Col, Modal} from 'react-bootstrap'
+import {Form, Button, Row, Col} from 'react-bootstrap'
 
 function PlantForm(props) {
 
@@ -270,7 +270,11 @@ function PlantForm(props) {
             <Form.Label htmlFor='fertilizer_freq'>Fertilizer (Frequency): </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Control type='text' name='fertilizer_freq' id='plant-fertilizer-freq' value={newPlant.fertilizer_freq} onChange={(e)=>handleChange(e)} disabled={isDelete} />
+          <Form.Select name='fertilizer_freq' id='plant-fertilizer-freq' value={newPlant.fertilizer_freq} onChange={(e)=>handleChange(e)} disabled={isDelete}>
+              {GlobalVars.fertilizer_freq_vars.map((line,i) => (
+                <option value={line} key={i}>{line}</option>
+              ))}
+            </Form.Select>
           </Col>
         </Row>
 

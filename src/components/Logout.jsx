@@ -8,7 +8,7 @@ import axiosInstance from '../Axios'
 function Logout(props) {
 
   const {setLoginStatus} = useContext(LoginContext)
-  const {user, userData, setUser, setUserData} = useContext(UserContext)
+  const {setUser, setUserData} = useContext(UserContext)
 
   const [isLoggedOut, setIsLoggedOut] = useState()
 

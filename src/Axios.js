@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-// let BASE_URL = 'http://localhost:8000/'
-let BASE_URL = process.env.NODE_ENV === 'local' ? 'http://localhost:8000/' : 'https://peaceful-cove-58620.herokuapp.com/'
+let BASE_URL = 'http://localhost:8000/'
+// let BASE_URL = process.env.NODE_ENV === 'local' ? 'http://localhost:8000/' : 'https://peaceful-cove-58620.herokuapp.com/'
 
 const axiosInstance = axios.create({
 

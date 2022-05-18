@@ -12,7 +12,8 @@ function About(props) {
         </h2>
       </center>
 
-          <img className='logo-float' src={logo_png} alt='logo' />
+          <div  className='logo-float' style={{backgroundImage:'url(https://cdn.shopify.com/s/files/1/0617/5073/9192/files/website_header_2_1500x.png)'}}>
+          </div>
 
           <p>The idea for Green Thumb came about when I asked my partner for something that could be made better by having a digital way to keep track of, and right away she said, "something to help me keep track of my plants. Like a schedule for plants."</p>
 

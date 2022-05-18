@@ -21,6 +21,7 @@ import Login from './components/Login'
 import Register from './components/Register'
 import Logout from './components/Logout'
 
+import logo_png from './assets/logo_v2.png'
 
 function App() {
   
@@ -161,10 +162,11 @@ if (loginStatus === false)
               <Route path="/" element={<Login />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/Logout" element={<Logout />} />
+              <Route path="/logout" element={<Logout />} />
+              <Route path="/about" element={<About />} />
             </Routes>
             <img
-              src={require("./assets/logo.png")}
+              src={logo_png}
               alt="logo-large"
               className="splash-logo"
             />
@@ -244,7 +246,7 @@ else if (loginStatus && userData)
                 />
               </Routes>
               <img
-                src={require("./assets/logo_v2.png")}
+                src={logo_png}
                 alt="logo-large"
                 className="splash-logo"
               />
