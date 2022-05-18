@@ -16,12 +16,13 @@ function HouseplantForm(props) {
   const isDelete = props.action === 'delete' ? true : false
 
   const [newHouseplant, setNewHouseplant] = useState({
-    user_id: null,
-    plant_id: null,
-    loc_id: null,
+    user_id: undefined,
+    plant_id: undefined,
+    loc_id: undefined,
     img_url: "",
     notes: ""
   })
+  const [locationMatches, setLocationMatches] = useState([])
 
   useEffect(() => {
     if (userData) setNewHouseplant({...newHouseplant, user_id: userData.id})
@@ -75,6 +76,18 @@ function HouseplantForm(props) {
     console.log("RES=",res)
   }
 
+  const locationMatch = (e) => {
+    const thisPlant = allPlants.filter(a=>a.id==e.target.value)[0]
+    let topMatches = userData.locations.filter(
+      a => a.light_level===thisPlant.light_level && a.temp===thisPlant.temp && a.humidity===thisPlant.humidity
+    )
+    topMatches.push(userData.locations.filter(
+      a => a.light_level.split(" ")[0]===thisPlant.light_level.split(" ")[0] 
+        && a.light_level.split(" ")[1]===thisPlant.light_level.split(" ")[1]
+    ))
+    console.log(thisPlant, topMatches) 
+  }
+
 
   if (userData && allPlants) {
     return (
@@ -97,7 +110,8 @@ function HouseplantForm(props) {
             <Form.Label htmlFor='plant_id'>Select plant: </Form.Label>
           </Col>
           <Col xs={12} lg={9} className='form-line-content'>
-            <Form.Select name='plant_id' id='plant-id' value={newHouseplant.plant_id} onChange={(e)=>handleChange(e)} disabled={isDelete} required>
+            <Form.Select name='plant_id' id='plant-id' value={newHouseplant.plant_id} onChange={(e)=>{handleChange(e); locationMatch(e)}} 
+            disabled={isDelete} required>
               <option value='' disabled selected hidden>---</option>
               {allPlants.map((plant,i) => (
                 <option value={plant.id}>{plant.name}</option>
@@ -112,9 +126,10 @@ function HouseplantForm(props) {
               </div>
             }
 
-            {
+            { newHouseplant.plant_id && 
               <div>
                 Want a suggestion on where to put this plant?
+
               </div>
             }
           </Col>

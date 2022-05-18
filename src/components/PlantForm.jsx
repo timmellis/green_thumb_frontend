@@ -26,7 +26,7 @@ function PlantForm(props) {
     })
     .catch(error => console.error(error, error.request.responseText))
   }
-  console.log("GBIF TEST",gbifSearch("spider plant"))
+  console.log("GBIF TEST",gbifSearch("snake plant"))
 
   // const natureServeApi = axios.create({
   //   baseURL: 'https://explorer.natureserve.org',
