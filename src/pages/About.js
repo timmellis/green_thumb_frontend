@@ -1,5 +1,5 @@
 import React from 'react';
-import logo_png from '../assets/logo_v2.png'
+// import logo_png from '../assets/logo_v2.png'
 import logo_text from '../assets/logo_text_v2.png'
 
 function About(props) {

@@ -16,7 +16,7 @@ function UserForm(props) {
 
   const navigate = useNavigate()
 
-  const {user, userData, refreshUserData} = useContext(UserContext)
+  const {userData, refreshUserData} = useContext(UserContext)
   const [userPreferences, setUserPreferences] = useState({})
 
   // BOOTSTRAP MODAL SETTINGS 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {UserContext} from '../ContextFiles/UserContext'
-import GlobalVars from '../globalVars'
+// import GlobalVars from '../globalVars'
 import {Modal, Button} from 'react-bootstrap'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -48,6 +48,12 @@ function Calendar(props) {
           hpFreq = hp.plant.water_freq.toLowerCase()
         }
 
+        let color = 'default'
+        if (hpInterval === 2) color='purple'
+        else if (hpInterval === 6) color='orangered'
+        else if (!hpByweekday.length) color='green'
+        else if (hpByweekday.length>1) color='orange'
+
         const oneEvent = {
           title: hp.plant.name,
           startRecur: `${hp.date_created.slice(0, 10)}`,
@@ -67,7 +73,8 @@ function Calendar(props) {
           temp: hp.plant.temp,
           humidity: hp.plant.humidity,
           light: hp.plant.light_level,
-          description: hp.plant.description
+          description: hp.plant.description,
+          color: color
         }
 
         return oneEvent
@@ -112,7 +119,6 @@ function Calendar(props) {
             eventfocus: item.event.extendedProps.eventfocus, 
           })
           handleShow()
-          console.log('modalDisplay' + JSON.stringify(modalDisplay))
         }}
       />
 
